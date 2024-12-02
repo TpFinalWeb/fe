@@ -1,16 +1,26 @@
 
 
 import React, { useState } from 'react';
-import { getTestings } from './proxy/proxy.ts';
+import { User } from './models/user.model';
+import { UserService } from './service/user.service.ts';
 
 export default function AxiosTest() {
     const [data, setData] = useState(null);
 
     const handleClick = async () => {
         try {
-            const response = await getTestings();
-            setData(response);
-            console.log(response);
+            const user: User = 
+            {
+                role: 'beta tester',
+                email: 'john.doe@example.com',
+                username: 'john.doe',
+                password: '#Test123'
+            }
+
+            const response = await UserService.registerUser(user);
+            // const response = await getTestings();
+            // setData(response);
+            // console.log(response);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
