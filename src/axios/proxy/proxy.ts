@@ -32,15 +32,15 @@ export default class UserProxy {
     }
 
     public static async login(email: string, password: string): Promise<any> {
+        // const result = await http.post("/login", {email, password});
+        // console.log(result.data);
+        // return result.data;
         try{
-            return await http.post("/login", {email, password}).then(
-                res => {
-                    console.log(res?.data);
-                    return res?.data;
-                }
-            )
+            const result = await http.post("/login", {email, password});
+
+            return result.data;
         }catch(error){
-            console.log(error);
+            return error.response.data.message;
         }
     }
 }

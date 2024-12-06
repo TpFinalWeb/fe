@@ -15,9 +15,11 @@ export class UserService {
 
     public static async loginUser(email: string, password: string): Promise<string>{
         try{
-            return await UserProxy.login(email, password);
+            const test =  await UserProxy.login(email, password);
+            console.log(test)
+            return test;
         }catch(error){
-            console.log(error);
+            //console.log(error);
             return "error in file user.service.ts function loginUser";
         }
     }
