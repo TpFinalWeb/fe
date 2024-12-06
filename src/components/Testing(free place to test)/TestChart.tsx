@@ -10,19 +10,22 @@ export default function LineChart(){
   const labels = ["January", "February", "March", "April", "May", "June"];
 
   const data = {
-    labels: labels,
+    labels: ["Go", "Python", "Kotlin", "JavaScript", "R", "Swift"],
     datasets: [
       {
-        label: "My First dataset",
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgb(255, 99, 132)",
-        data: [0, 10, 5, 2, 20, 30, 45],
-      },
-      {
-        label: "My First dataset",
-        backgroundColor: "rgb(0, 99, 132)",
-        borderColor: "rgb(0, 0, 132)",
-        data: [0, 100, 50, 290, 200, 300, 405],
+        label: "# of Votes",
+        data: [35, 25, 22, 20, 18, 15],
+        backgroundColor: [
+          "#007D9C",
+          "#244D70",
+          "#D123B3",
+          "#F7E018",
+          "#fff",
+          "#FE452A",
+        ],
+        borderColor: [
+          "rgba(0,0,0,1)"
+        ],
       },
     ],
   };

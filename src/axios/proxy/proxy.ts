@@ -30,4 +30,17 @@ export default class UserProxy {
             console.log(error);
         }
     }
+
+    public static async login(email: string, password: string): Promise<any> {
+        try{
+            return await http.post("/login", {email, password}).then(
+                res => {
+                    console.log(res?.data);
+                    return res?.data;
+                }
+            )
+        }catch(error){
+            console.log(error);
+        }
+    }
 }
