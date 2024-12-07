@@ -1,21 +1,30 @@
 
 
-import React, { useState } from 'react';
+import React from 'react';
 import { User } from './models/user.model';
 import { UserService } from './service/user.service.ts';
+import UserProxy from './proxy/userProxy.ts';
 
 export default function AxiosTest() {
-    const [data, setData] = useState("");
 
     const handleClick = async () => {
         try {
             const user: {email:string, password: string} = 
             {
-                email: 'john.doe@example.com',
+                email: 'betatester@gmail.com',
                 password: '#Test123'
             }
 
-            const response = await UserService.loginUser(user.email, user.password)
+            const userToRegister: User = {
+                role: "user",
+                email: "betatester2@gmail.com",
+                username: "betatester2",
+                password: "#Test123"
+            }  
+
+            //await UserService.loginUser(user.email, user.password);
+            await UserProxy.testies();
+            //const createUser = await UserService.registerUser(userToRegister);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -23,7 +32,6 @@ export default function AxiosTest() {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f0f0f0' }}>
             <button onClick={handleClick}>Fetch Data</button>
-            {data}
         </div>
     );
 }

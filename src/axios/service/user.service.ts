@@ -1,5 +1,6 @@
+import { setToken } from "../http-common.ts";
 import { User } from "../models/user.model";
-import UserProxy from "../proxy/proxy.ts";
+import UserProxy from "../proxy/userProxy.ts";
 
 
 export class UserService {
@@ -15,9 +16,9 @@ export class UserService {
 
     public static async loginUser(email: string, password: string): Promise<string>{
         try{
-            const test =  await UserProxy.login(email, password);
-            console.log(test)
-            return test;
+            const token = await UserProxy.login(email, password);
+            setToken(token);
+            return token;
         }catch(error){
             //console.log(error);
             return "error in file user.service.ts function loginUser";
