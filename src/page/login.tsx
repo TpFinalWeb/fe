@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from '../axios/axios.js';
-import { UserService } from '../axios/service/user.service.js';
+import { UserService } from '../axios/service/user.service.ts';
 
 
 function Login() {

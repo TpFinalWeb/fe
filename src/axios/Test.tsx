@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { User } from './models/user.model';
 import { UserService } from './service/user.service.ts';
