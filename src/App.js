@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>This is the steam api</h1>
-        {/* <AxiosTest /> */}
+        <AxiosTest />
         <LineChart />
       </header>
     </div>
