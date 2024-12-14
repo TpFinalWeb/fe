@@ -4,13 +4,14 @@ import UserProxy from "../proxy/userProxy.ts";
 
 
 export class UserService {
-    public static async registerUser(user: User): Promise<string>{
+    public static async registerUser(user: User): Promise<{success: boolean, message: string}>{
         try{
-            return await UserProxy.register(user);
+            const result = await UserProxy.register(user);
+            return {success: true, message: result};
+            //return "test";
         }
         catch(err){
-            console.log(err)
-            return "error in file user.service.ts function registerUser";
+            return {success: false, message: err};
         }
     }
 

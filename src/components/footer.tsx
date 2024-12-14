@@ -1,5 +1,5 @@
 import React from "react"
-
+import marieVicLogo from '../assets/Marie-victorin.png'
 
 export default function Footer(){
     return(
@@ -8,7 +8,7 @@ export default function Footer(){
           <p className="text-left font-mono font-bold">Moby API Studio</p>
           <div className="flex flex-1 justify-center">
             <img
-              src={require('../assets/Marie-victorin.png')}
+              src={marieVicLogo}
               alt="Marie Victorin"
               className="w-60"
             />
