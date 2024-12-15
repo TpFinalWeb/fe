@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from '../../axios/axios.js';
 import { UserService } from '../../axios/service/user.service.ts';
 import Footer from '../../components/footer.tsx';
 import Header from '../../components/header.tsx';
