@@ -15,9 +15,11 @@ function App() {
       <header className="App-header">
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<p>this is the main for now</p>}/>
+            <Route path="/" element={<AxiosTest/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
+
+
           </Routes>
         </BrowserRouter>
       </header>
