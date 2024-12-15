@@ -6,13 +6,11 @@ export default class UserProxy {
 
     public static async register(user: User): Promise<any> {
         try{
-            return await apiClient.post("/register", user).then(
-                res => {
-                    return res?.data;
-                }
-            )
+            const response = await apiClient.post("/register", user)
+
+            return response.data.message;
         }catch(error){
-            console.log(error as string);
+            return error.response.data.error;
         }
     }
 
