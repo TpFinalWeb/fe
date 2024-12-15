@@ -6,6 +6,7 @@ import Login from "./page/connection/login.tsx";
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router";
 import Register from "./page/connection/register.tsx";
+import AdminBoard from "./page/admin/adminBoard.tsx";
 
 
 
@@ -18,7 +19,7 @@ function App() {
             <Route path="/" element={<AxiosTest/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
-
+            <Route path="/admin" element={<AdminBoard />}/>
 
           </Routes>
         </BrowserRouter>
