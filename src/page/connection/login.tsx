@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from '../../axios/axios.js';
 import { UserService } from '../../axios/service/user.service.ts';
 import Footer from '../../components/footer.tsx';
 import Header from '../../components/header.tsx';
@@ -73,8 +72,8 @@ const handleSubmit = async (e) => {
           </button>
 
           <div>
-            <p className='text-xs text-center mt-3'>Vous n'avez pas de compte? 
-              <Link to="/register" className='font-semibold text-decoration-line: underline bold text-blue-500 ml-2'>inscrivez vous ici</Link>
+            <p className='text-xs text-center mt-3 '>Vous n'avez pas de compte? 
+              <Link to="/register" className='font-semibold text-decoration-line: underline bold text-blue-500 ml-2'>Inscrivez vous ici</Link>
             </p>
           </div>
         </form>
