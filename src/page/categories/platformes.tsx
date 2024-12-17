@@ -4,16 +4,51 @@ import Footer from "../../components/footer.tsx";
 import Chart from "chart.js/auto";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
-
+import { useState, useEffect } from "react";
+import {GraphService} from "../../axios/service/graph.service.ts";
 Chart.register(CategoryScale);
 
 function Plateformes() {
+  const [datasets, setDatasets] = useState(["Go", "Python", "Kotlin", "JavaScript", "R", "Swift"]);
+  const [labels, setLabels] = useState([35, 25, 22, 20, 18, 15]);
+  useEffect(() => {
+    const fetchData = async () => {
+    const response = await GraphService.getPlatformsWhereGamesReleaseFirst();
+    const data = response.aggregation;
+    console.log(data);
+    const platforms = data.map((item: { platformName: string }) => item.platformName);
+    const gameCounts = data.map((item: { gameCount: number }) => item.gameCount);
+    const updatedData = data.reduce(
+      (acc: { platforms: string[]; gameCounts: number[] }, item: { platformName: string; gameCount: number }) => {
+      if (item.gameCount < 200) {
+        const othersIndex = acc.platforms.indexOf("Others");
+        if (othersIndex === -1) {
+        acc.platforms.push("Others");
+        acc.gameCounts.push(item.gameCount);
+        } else {
+        acc.gameCounts[othersIndex] += item.gameCount;
+        }
+      } else {
+        acc.platforms.push(item.platformName);
+        acc.gameCounts.push(item.gameCount);
+      }
+      return acc;
+      },
+      { platforms: [], gameCounts: [] }
+    );
+
+    setLabels(updatedData.platforms);
+    setDatasets(updatedData.gameCounts);
+    
+    };
+    fetchData();
+  }, []);
   const data = {
-    labels: ["Go", "Python", "Kotlin", "JavaScript", "R", "Swift"],
+    labels: labels,
     datasets: [
       {
         label: "# of Votes",
-        data: [35, 25, 22, 20, 18, 15],
+        data: datasets,
         backgroundColor: [
           "#007D9C",
           "#244D70",
