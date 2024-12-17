@@ -17,15 +17,16 @@ function Plateformes() {
     const response = await GraphService.getPlatformsWhereGamesReleaseFirst();
     const data = response.aggregation;
     console.log(data);
+    let accum = 0;
     const updatedData = data.reduce(
       (acc, item) => {
       if (item.gameCount < 200) {
-        const othersIndex = acc.platforms.indexOf("Others");
-        if (othersIndex === -1) {
+        accum += item.gameCount;
+        if (!acc.platforms.includes("Others")) {
         acc.platforms.push("Others");
-        acc.gameCounts.push(item.gameCount);
+        acc.gameCounts.push(accum);
         } else {
-        acc.gameCounts[othersIndex] += item.gameCount;
+        acc.gameCounts[acc.platforms.indexOf("Others")] = accum;
         }
       } else {
         acc.platforms.push(item.platformName);
