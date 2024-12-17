@@ -57,9 +57,9 @@ export default class GraphProxy {
         }
     }
 
-    public static async getPlatPopularityBy2Months(): Promise<any> {
+    public static async getPlatPopularityBy2Months(startMonth:string, endMonth:string): Promise<any> {
         try {
-            const result = await apiClient.get("/aggregations/getPlatPopularityBy2Months");
+            const result = await apiClient.get("/aggregations/getPlatPopularityBy2Months", {params: {startMonth, endMonth}});
             return result.data;
         } catch (error) {
             return error.response.data.message;
@@ -75,14 +75,18 @@ export default class GraphProxy {
         }
     }
 
+
     public static async getTop10GamesOfGenre(genre_name: string): Promise<any> {
         try {
-            const result = await apiClient.get("/aggregations/getTop10GamesOfGenre", {params: {genre_name}});
-            return result.data;
+          const result = await apiClient.get("/aggregations/getTop10GamesOfGenre", {
+            params: { genre_name }
+          });
+          return result.data; // Ensure this is what your API returns (e.g., an object with `aggregation`)
         } catch (error) {
-            return error.response.data.message;
+          console.error(error);
+          return { success: false, message: error.message };  // Handle errors properly
         }
-    }
+      }
 
     public static async getPlatformQualityByTime(platform_name: string): Promise<any> {
         try {

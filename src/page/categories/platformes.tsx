@@ -104,7 +104,7 @@ function Platformes() {
     
     };
     const fetchData3 = async () => {
-      // Graph 2
+      // Graph 3
       const response = await GraphService.getGamesPerPlatforms();
       const data = response.aggregation;
       let accum = 0;
