@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderMain from "../../components/headerMain.tsx";
 import Footer from "../../components/footer.tsx";
 import Chart from "chart.js/auto";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
-import { useState, useEffect } from "react";
 import {GraphService} from "../../axios/service/graph.service.ts";
 Chart.register(CategoryScale);
 
-function Plateformes() {
+function Platformes() {
   const [openPopUp, setOpenPopUp] = useState(false)
   const [popUpContent, setPopUpContent] = useState({ title: "", description: "" });
   const [datasets, setDatasets] = useState(["Go", "Python", "Kotlin", "JavaScript", "R", "Swift"]);
@@ -63,7 +62,7 @@ function Plateformes() {
   };
   const data = {
     
-    labels: ["Go", "Python", "Kotlin", "JavaScript", "R", "Swift"],
+    labels: labels,
     datasets: [
       {
         label: "# of Votes",
