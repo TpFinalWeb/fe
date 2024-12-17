@@ -11,6 +11,7 @@ Chart.register(CategoryScale);
 function Plateformes() {
   const [datasets, setDatasets] = useState(["Go", "Python", "Kotlin", "JavaScript", "R", "Swift"]);
   const [labels, setLabels] = useState([35, 25, 22, 20, 18, 15]);
+  const [colors, setColors] = useState<string[]>([]);
   useEffect(() => {
     const fetchData = async () => {
     const response = await GraphService.getPlatformsWhereGamesReleaseFirst();
@@ -40,6 +41,17 @@ function Plateformes() {
     setLabels(updatedData.platforms);
     setDatasets(updatedData.gameCounts);
     
+    let colorsArray: string[] = [];
+    for (let i = 0; i < updatedData.platforms.length; i++) {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      colorsArray.push(color);
+    }
+    setColors(colorsArray);
+    
     };
     fetchData();
   }, []);
@@ -49,14 +61,7 @@ function Plateformes() {
       {
         label: "# of Votes",
         data: datasets,
-        backgroundColor: [
-          "#007D9C",
-          "#244D70",
-          "#D123B3",
-          "#F7E018",
-          "#FFFFFF",
-          "#FE452A",
-        ],
+        backgroundColor: colors,
         borderColor: ["rgba(0,0,0,1)"],
         borderWidth: 1,
       },
