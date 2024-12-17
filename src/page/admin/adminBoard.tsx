@@ -1,39 +1,61 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/header.tsx";
 import Footer from "../../components/footer.tsx";
-import words from "./words.ts";
+import noImage from "../../assets/noImageFound.png";
 import GameProxy from "../../axios/proxy/gameProxy.ts";
+import { GameI } from "../../axios/models/game.model.ts";
 
 export default function AdminBoard() {
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filteredWords, setFilteredWords] = useState<string[]>([]);
+    const [searchGame, setSearchGame] = useState("");
+    const [lastSearchGame, setlastSearchGame] = useState("");
+    const [gamesSearched, setgamesSearched] = useState<GameI[] | undefined>();
+    const [enterPressed, setEnterPressed] = useState(false);
 
-    const getGamesCall = async () => {
+    const getGamesCall = async (value) => {
         try {
-            const allGames = await GameProxy.getGames()
+            const allGames = await GameProxy.getGames(value)
             console.log(allGames)
+            return allGames;
         } catch (error) {
             console.log(error)
         }
     }
-    useEffect(() => {
-        getGamesCall()
-    }, [])
-    
+
+    const searchForGames = async (startString: string) => {
+        try{
+            const games = await getGamesCall(startString);
+            setgamesSearched(games);
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setSearchTerm(value);
-        if(value === "all"){
-            setFilteredWords(words);
-            return;
+        setSearchGame(value);
+        console.log(searchGame)
+    }
+
+    
+
+    const handleEnterPress = (event) => {
+        if(event.key === 'Enter' && !enterPressed){
+            setEnterPressed(true);
         }
-        if (value) {
-            setFilteredWords(words.filter(word => word.toLowerCase().startsWith(value.toLowerCase())));
-        } else {
-            setFilteredWords([]);
+    }
+    const handleEnterRelease = async (event) => {
+        if(event.key === 'Enter'){
+            setEnterPressed(false);
+            await searchForGames(searchGame);
         }
-    };
+    }
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleEnterPress);
+        window.addEventListener('keyup', handleEnterRelease);
+        return () => { window.removeEventListener('keydown', handleEnterPress); window.removeEventListener('keyup', handleEnterRelease); };
+    }, [searchGame])
 
     return (
         <div>
@@ -47,23 +69,21 @@ export default function AdminBoard() {
                         type="text"
                         placeholder="Search..."
                         className="w-1/2 p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                        value={searchTerm}
+                        value={searchGame}
                         onChange={handleSearchChange}
                     />
 
                     <div className="absolute bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 mt-16 max-h-96 overflow-y-auto">
-
-                        {filteredWords.length > 0 && (
-                            <div>
-                                <ul>
-                                    {filteredWords.map((word, index) => (
-                                        <li key={index} className="p-3 hover:bg-gray-200 cursor-pointer">
-                                            {word}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
+                        <ul>
+                            {gamesSearched && gamesSearched.length > 0 && ( 
+                                gamesSearched.map((game, index) => (
+                                    <li key={index} className="p-3 hover:bg-gray-200 cursor-pointer flex flex-col items-center">
+                                        <h1>{game.name}</h1>
+                                        <img src={game.sample_cover?.image || noImage} className="w-60 mt-2" />
+                                    </li>
+                                ))
+                            )}
+                        </ul>
                     </div>
 
                 </div>
