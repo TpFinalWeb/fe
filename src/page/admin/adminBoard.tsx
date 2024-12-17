@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/header.tsx";
 import Footer from "../../components/footer.tsx";
 import words from "./words.ts";
+import GameProxy from "../../axios/proxy/gameProxy.ts";
 
 export default function AdminBoard() {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredWords, setFilteredWords] = useState<string[]>([]);
 
+    const getGamesCall = async () => {
+        try {
+            const allGames = await GameProxy.getGames()
+            console.log(allGames)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getGamesCall()
+    }, [])
+    
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSearchTerm(value);
