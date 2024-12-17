@@ -11,16 +11,14 @@ Chart.register(CategoryScale);
 function Plateformes() {
   const [datasets, setDatasets] = useState(["Go", "Python", "Kotlin", "JavaScript", "R", "Swift"]);
   const [labels, setLabels] = useState([35, 25, 22, 20, 18, 15]);
-  const [colors, setColors] = useState<string[]>([]);
+  const [colors, setColors] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
     const response = await GraphService.getPlatformsWhereGamesReleaseFirst();
     const data = response.aggregation;
     console.log(data);
-    const platforms = data.map((item: { platformName: string }) => item.platformName);
-    const gameCounts = data.map((item: { gameCount: number }) => item.gameCount);
     const updatedData = data.reduce(
-      (acc: { platforms: string[]; gameCounts: number[] }, item: { platformName: string; gameCount: number }) => {
+      (acc, item) => {
       if (item.gameCount < 200) {
         const othersIndex = acc.platforms.indexOf("Others");
         if (othersIndex === -1) {
@@ -41,7 +39,7 @@ function Plateformes() {
     setLabels(updatedData.platforms);
     setDatasets(updatedData.gameCounts);
     
-    let colorsArray: string[] = [];
+    let colorsArray = [];
     for (let i = 0; i < updatedData.platforms.length; i++) {
       const letters = '0123456789ABCDEF';
       let color = '#';
@@ -49,6 +47,7 @@ function Plateformes() {
         color += letters[Math.floor(Math.random() * 16)];
       }
       colorsArray.push(color);
+      console.log(color); 
     }
     setColors(colorsArray);
     
