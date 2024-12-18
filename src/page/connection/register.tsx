@@ -11,7 +11,7 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  
+
   const navigate = useNavigate();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -45,26 +45,26 @@ export default function Register() {
     }
   }
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!emailRegex.test(email)) {
       setError('Email invalide');
       return;
     }
-    
-    if(!usernameRegex.test(username)) {
+
+    if (!usernameRegex.test(username)) {
       setError('Le username doit contenir entre 3 et 30 caractères');
       return;
     }
 
-    if(!passwordRegex.test(password)) {
+    if (!passwordRegex.test(password)) {
       setError('Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial');
       return;
     }
 
     setError('');
 
-    try{
+    try {
       const userToRegister: User = {
         role: "user",
         email: email,
@@ -72,18 +72,26 @@ const handleSubmit = async (e) => {
         password: password
       }
       const response = await UserService.registerUser(userToRegister);
-      if(response.success === true){
-        UserService.loginUser(email, password); // to create a token and put it in localstorage
-        //navigate('/games'); // i should probably put it in UserService.loginUser
-      }
-      else{
+      // if(response.success === true){
+      //   UserService.loginUser(email, password); // to create a token and put it in localstorage
+      //   //navigate('/games'); // i should probably put it in UserService.loginUser
+      // }
+      // else{
+      //   setError(response.message)
+      // }
+
+      if(response.code === 400){
         setError(response.message)
       }
-    }catch(error){
-      console.log(error)
+      else if(response.code === 201){
+        await UserService.loginUser(email, password);
+        navigate('/games');
+      }
+
+    } catch (error) {
       setError("An internal Error has occured, try again later")
     }
-};
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -123,7 +131,7 @@ const handleSubmit = async (e) => {
           </button>
 
           <div>
-            <p className='text-xs text-center mt-3'>Vous avez déja un compte? 
+            <p className='text-xs text-center mt-3'>Vous avez déja un compte?
               <Link to="/login" className='font-semibold text-decoration-line: underline bold text-blue-500 ml-2'>Connectez-vous ici</Link>
             </p>
           </div>
