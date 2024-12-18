@@ -113,9 +113,9 @@ function Games() {
     setColors2(colorsArray);
   };
 
-  const truncatedLabels = labels.map(label => label.length > 10 ? label.substring(0, 10) + "..." : label);
+  
   const data = {
-    labels: truncatedLabels,
+    labels: labels,
     datasets: [
       {
         label: "Top 10 Games of a Platform",
@@ -127,9 +127,9 @@ function Games() {
     ]
   };
 
-  const truncatedLabels1 = labels1.map(label => label.length > 10 ? label.substring(0, 10) + "..." : label);
+ 
   const dataGenre = {
-    labels: truncatedLabels1,
+    labels: labels1,
     datasets: [
       {
         label: "Top 10 Games of a Genre",
@@ -156,6 +156,14 @@ function Games() {
 
   const options = {
     scales: {
+      x: {
+        ticks: {
+          callback: function (value) {
+            const label = this.getLabelForValue(value); 
+            return label.length > 10 ? label.substring(0, 10) + '...' : label; 
+          },
+        },
+      },
       y: {
         beginAtZero: false,
         min: Math.min(...dataset) - 0.2,
@@ -165,6 +173,14 @@ function Games() {
   };
   const optionsGenre = {
     scales: {
+      x: {
+        ticks: {
+          callback: function (value) {
+            const label = this.getLabelForValue(value); 
+            return label.length > 10 ? label.substring(0, 10) + '...' : label; 
+          },
+        },
+      },
       y: {
         beginAtZero: false,
         min: Math.min(...dataset1) - 0.2,

@@ -82,4 +82,16 @@ export class GraphService {
         }
     }
 
+    public static async getGenrePopularity(): Promise<any>{
+        try{
+            const result = await GraphProxy.getGenrePopularity();
+            console.log(result.aggregation);
+            return result;
+        }
+        catch(err){
+            return {success: false, message: err};
+        }
+    }
+    
+
 }
