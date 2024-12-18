@@ -24,6 +24,8 @@ function App() {
             <Route path="/genres" element={<Genres />} />
             <Route path="/platformes" element={<Platformes />} />
             <Route path="/scores" element={<Scores />} />
+            <Route path="/unauthorized" element={<div>Error 401: You are not authorized to view this page</div>} />
+            <Route path="*" element={<div>Error 404: Page not found</div>} />
           </Routes>
         </BrowserRouter>
       </header>

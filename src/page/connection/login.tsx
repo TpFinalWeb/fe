@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { UserService } from '../../axios/service/user.service.ts';
 import Footer from '../../components/footer.tsx';
 import Header from '../../components/header.tsx';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -25,7 +27,13 @@ const handleSubmit = async (e) => {
       return;
     }
     setError('');
-    await UserService.loginUser(email, password);
+    try{
+      await UserService.loginUser(email, password);
+      navigate('/games');
+    }catch(err){
+      console.log(err);
+      setError('Erreur interne, réessayez plus tard');
+    }
   };
 
   return (

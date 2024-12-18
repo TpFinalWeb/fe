@@ -15,7 +15,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(){}[\]:<>?])[A-Za-z\d!@#$%^&*(){}[\]:<>?]{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(){}[\]:<>?])[A-Za-z\d!@#$%^&*(){}[\]:<>?]{7,}$/;
   const usernameRegex = /^[a-zA-Z0-9]{3,30}$/;
 
   const inputInformations = {
@@ -74,7 +74,7 @@ const handleSubmit = async (e) => {
       const response = await UserService.registerUser(userToRegister);
       if(response.success === true){
         UserService.loginUser(email, password); // to create a token and put it in localstorage
-        navigate('/'); // i should probably put it in UserService.loginUser
+        navigate('/games'); // i should probably put it in UserService.loginUser
       }
       else{
         setError(response.message)
