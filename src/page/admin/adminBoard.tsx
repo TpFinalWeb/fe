@@ -6,15 +6,16 @@ import GameProxy from "../../axios/proxy/gameProxy.ts";
 import { GameI } from "../../axios/models/game.model.ts";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminBoard() {
 
     const [searchGame, setSearchGame] = useState("");
-    const [lastSearchGame, setlastSearchGame] = useState("");
+    //const [lastSearchGame, setlastSearchGame] = useState("");
     const [gamesSearched, setgamesSearched] = useState<GameI[] | undefined>();
     const [enterPressed, setEnterPressed] = useState(false);
     const [currentGame, setCurrentGame] = useState<GameI | undefined>();
+
+    const eraseDialogId = "deleteVerificationDialog";
 
     const getGamesCall = async (value) => {
         try {
@@ -61,7 +62,6 @@ export default function AdminBoard() {
 
     const openDialog = (game) => {
         setCurrentGame(game);
-        console.log("clicked on game: " + currentGame?.name)
         const dialog = document.getElementById("dialog") as HTMLDialogElement;
         dialog.showModal();
     }
@@ -70,6 +70,28 @@ export default function AdminBoard() {
         setCurrentGame(undefined);
         const dialog = document.getElementById("dialog") as HTMLDialogElement;
         dialog.close();
+    }
+
+    const openEraseDialog = (dialogId) => {
+        const dialog = document.getElementById(dialogId) as HTMLDialogElement;
+        dialog.showModal();
+    }
+
+    const closeEraseDialog = (dialogId) => {
+        const dialog = document.getElementById(dialogId) as HTMLDialogElement;
+        dialog.close();
+    }
+
+    const deleteGame = async () => {
+        try {
+            const response = await GameProxy.deleteGame(currentGame?._id!);
+            setgamesSearched(gamesSearched?.filter(game => game._id !== currentGame?._id));
+            closeDialog();
+            closeEraseDialog(eraseDialogId);
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <div className="font-mono">
@@ -123,10 +145,16 @@ export default function AdminBoard() {
                 <Footer />
             </div>
 
-            <dialog id="dialog" className="modal rounded-2xl h-2/3 w-1/2 ">
-                <div className="modal-box h-full pt-4">
-                    <div className="flex justify-center">
-                        <h1 className="text-3xl font-bold text-decoration-line: underline text-center w-fit ">{currentGame?.name}</h1>
+            <dialog id="dialog" className="modal rounded-2xl h-2/3 w-1/2" onClick={(e) => { if (e.target === e.currentTarget) closeDialog(); }}>
+                <div className="relative modal-box h-full pt-4">
+                    <div className="fixed ml-5">
+                        <button className="px-4 py-2 bg-teal-600 text-white cursor-pointer rounded hover:bg-teal-700" onClick={() => { closeDialog() }}>Exit</button>
+                    </div>
+
+                    <div className="flex flex-row justify-center">
+                        <div className="flex justify-center">
+                            <h1 className="text-3xl font-bold text-decoration-line: underline text-center w-fit ">{currentGame?.name}</h1>
+                        </div>
                     </div>
 
                     <div>
@@ -170,10 +198,21 @@ export default function AdminBoard() {
                         </div>
                     </div>
 
-                    <div className="">
-                        <button className="bg-blue-500 h-10 w-20 rounded-lg ml-5 hover:bg-red-500 cursor-pointer" onClick={() => { closeDialog() }}>Exit</button>
+                    <div className="flex flex-row justify-center mt-10 pb-10">
+                        <button className="px-4 py-2 bg-red-600 cursor-pointer text-white rounded hover:bg-red-800" onClick={() => { openEraseDialog(eraseDialogId) }}>Delete</button>
+                        <button className="px-4 py-2 ml-20 cursor-pointer bg-yellow-600 text-white rounded hover:bg-yellow-400">Modify</button>
                     </div>
-                    {/* <FontAwesomeIcon icon={faCircleXmark} /> */}
+
+                </div>
+            </dialog>
+
+            <dialog id={eraseDialogId} className="modal rounded-2xl h-1/6 w-1/4 border-2 border-black" onClick={(e) => { if (e.target === e.currentTarget) closeEraseDialog(eraseDialogId); }}>
+                <div>
+                    <h1 className="text-center mt-4 text-lg font-extrabold">Are you sure you want to delete this game?</h1>
+                    <div className="flex flex-row justify-center mt-10">
+                        <button className="px-10 py-2 bg-red-600 cursor-pointer text-white rounded hover:bg-red-800" onClick={() => { deleteGame() }}>Yes</button>
+                        <button className="px-10 py-2 ml-10 cursor-pointer bg-green-600 text-white rounded hover:bg-green-800" onClick={() => { closeEraseDialog(eraseDialogId) }}>No</button>
+                    </div>
                 </div>
             </dialog>
 

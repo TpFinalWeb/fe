@@ -12,4 +12,13 @@ export default class GameProxy {
             console.log(error)
         }
     }
+
+    public static async deleteGame(gameId: string): Promise<any> {
+        try{
+            const response = await apiClient.delete(`/games/${gameId}`)
+            return response.data;
+        }catch(error){
+            console.log(error)
+        }
+    }
 }

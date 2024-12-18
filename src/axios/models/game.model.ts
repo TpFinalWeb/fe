@@ -1,4 +1,5 @@
 export interface GameI {
+    _id: string;
     name: string;
     detailed_description: string;
     num_vote: number;
