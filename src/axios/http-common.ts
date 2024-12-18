@@ -1,5 +1,4 @@
 import axios from 'axios';
-import localForage from 'localforage';
 
 const axiosConfig = {
     baseURL: "https://localhost:3005",
@@ -12,7 +11,7 @@ const apiClient = axios.create(axiosConfig);
 
 apiClient.interceptors.request.use(
     async (config) => {
-        const token = await getToken(); // Get the token from local storage
+        const token = localStorage.getItem('token'); // Get the token from local storage
         if (token) {
             config.headers.Authorization = `Bearer ${token}`; // Set the Authorization header
         }
@@ -24,7 +23,7 @@ apiClient.interceptors.request.use(
 );
 
 
-export async function setToken(token: string){
+export function setToken(token: string){
     try {
         localStorage.setItem('token', token);
     } catch (error) {
@@ -32,23 +31,22 @@ export async function setToken(token: string){
     }
 }
 
-export async function getToken(){
-    try{
-        const token = await localForage.getItem('token') as JSON;
-        if(token){
-            return token['token'];
-        }
-    }catch(error){
+export function getToken(){
+    try {
+        const token = localStorage.getItem('token');
+        return token;
+    } catch (error) {
         console.log(error);
     }
 }
 
-export async function removeToken(){
-    try{
-        await localForage.removeItem('token');
-        const token = await localForage.getItem('token');
+export function removeToken(){
+    try {
+        localStorage.removeItem('token');
+        const token = localStorage.getItem('token');
         return token === null;
-    }catch(error){
+    } catch (error) {
+        console.log(error);
         return false;
     }
 }

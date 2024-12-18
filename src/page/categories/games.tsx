@@ -7,6 +7,7 @@ import { CategoryScale } from "chart.js";
 import { GraphService } from "../../axios/service/graph.service.ts";
 import { UserService } from "../../axios/service/user.service.ts";
 import { useNavigate } from "react-router";
+import { getToken } from "../../axios/http-common.ts";
 Chart.register(CategoryScale);
 
 function Games() {
@@ -26,6 +27,7 @@ function Games() {
   const [values, setValues] = useState([0, 12]); // Values for min and max
   const [datasetGenre, setdatasetGenre] = useState([]);
   const [labels2, setLabels2] = useState<string[]>([]);
+  
   const [isConnected, setIsConnected] = useState(false);
 
   const navigate = useNavigate();
@@ -37,20 +39,17 @@ function Games() {
   };
 
   useEffect(() => {
-    const checkConnection = async () => {
-      try {
-        const token = await UserService.getToken();
-        if (token) {
-          setIsConnected(true);
-        }
-        else {
-          setIsConnected(false);
-          navigate('/login');
-        }
-      } catch (error) {
-        console.log(error);
+    const verifyConnection = async () => {
+      const token = getToken();
+      if (token == null) {
+        setIsConnected(false);
+        navigate("/login");
+      }
+      else {
+        setIsConnected(true);
       }
     }
+
     const fetchData = async () => {
       const data = await GraphService.getAllPlatforms();
       const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
@@ -58,15 +57,17 @@ function Games() {
     };
     const fetchdataGenre = async () => {
       const data = await GraphService.getAllGenres();
+      console.log(data)
       const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
       setgenreOption(list);
     };
 
-    if (isConnected) {
+    verifyConnection();
+    if(isConnected){
       fetchData();
       fetchdataGenre();
     }
-  }, []);
+  }, [isConnected]);
 
   async function handleOption(params: string) {
     try {

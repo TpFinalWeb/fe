@@ -50,7 +50,6 @@ export default function HeaderMain(){
                   <Link to="/scores" className="font-semibold hover:text-teal-600 border-l border-black pl-10">Scores</Link>
                 </nav>
 
-
                 {
                   isConnected &&
                   <div className="flex justify-end">
