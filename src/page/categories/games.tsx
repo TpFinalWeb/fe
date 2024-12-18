@@ -32,17 +32,27 @@ function Games() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await GraphService.getAllPlatforms();
-      const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
-      setPlatformOptions(list);
+      try{
+
+        const data = await GraphService.getAllPlatforms();
+        const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
+        setPlatformOptions(list);
+      }catch(error){
+        console.error("Failed to fetch platforms:", error);
+      }
     };
     const fetchdataGenre = async () => {
-      const data = await GraphService.getAllGenres();
-      const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
-      setgenreOption(list);
+      try{
+
+        const data = await GraphService.getAllGenres();
+        const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
+        setgenreOption(list);
+      }catch(error){
+        console.error("Failed to fetch platforms:", error);
+      }
+      
     };
     try{
-
       fetchData();
       fetchdataGenre();
     }catch(error){
