@@ -39,9 +39,9 @@ export default class GraphProxy {
         }
     }
 
-    public static async getGenreYearlyPopularity(): Promise<any> {
+    public static async getGenreYearlyPopularity(genre_name:String): Promise<any> {
         try {
-            const result = await apiClient.get("/aggregations/getGenreYearlyPopularity");
+            const result = await apiClient.get("/aggregations/getGenreYearlyPopularity", {params: {genre_name}});
             return result.data;
         } catch (error) {
             return error.response.data.message;

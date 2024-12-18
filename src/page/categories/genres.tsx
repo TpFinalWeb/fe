@@ -8,7 +8,7 @@ import { GraphService } from "../../axios/service/graph.service.ts";
 
 Chart.register(CategoryScale);
 
-function GenrePopularity() {
+function Genres() {
   const [genreOptions, setGenreOptions] = useState<string[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [dataset, setDataset] = useState<number[]>([]);
@@ -19,6 +19,11 @@ function GenrePopularity() {
   const [datasets1, setDatasets1] = useState([]);
   const [labels1, setLabels1] = useState([]);
   const [colors1, setColors1] = useState<string[]>([]);
+  const [curroption, setcurroption] = useState<string>("");
+  const [dataGenre, setdataGenre] = useState([]);
+  const [colors2, setColors2] = useState<string[]>([]);
+
+  
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -34,7 +39,7 @@ function GenrePopularity() {
     };
 
      const fetchData2 = async () => {
-        const response = await GraphService.getPlatformPopularity();
+        const response = await GraphService.getGenrePopularity();
         const data = response.aggregation;
         console.log(data);
         let accum = 0;
@@ -76,8 +81,26 @@ function GenrePopularity() {
     fetchData2();
   }, []);
 
-
-   
+  async function handleOption(params: string) {
+      try {
+      const data = await GraphService.getGenreYearlyPopularity(params);
+      setDataset(data.aggregation.map((game: any) => game.average_vote));
+      setLabels(data.aggregation.map((game: any) => game.release_year));
+      let colorsArray: string[] = [];
+      for (let i = 0; i < data.aggregation.length; i++) {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let j = 0; j < 6; j++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        colorsArray.push(color);
+      }
+      setColors2(colorsArray);
+    }
+    catch (error) {
+      
+    }
+  }
 
   const handleOpenPopUp = (title: string, description: string) => {
     setPopUpContent({ title, description });
@@ -91,6 +114,20 @@ function GenrePopularity() {
       {
         label: "Genre Popularity",
         data: datasets1,
+        backgroundColor: colors2,
+        borderColor: ["rgba(0,0,0,1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const data2 = {
+    
+    labels: labels,
+    datasets: [
+      {
+        label: "Genre Popularity By Year",
+        data: dataset,
         backgroundColor: colors1,
         borderColor: ["rgba(0,0,0,1)"],
         borderWidth: 1,
@@ -134,6 +171,38 @@ function GenrePopularity() {
               Voir Détails
             </button>
           </div>
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
+            <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
+              Graphique 2: Top 10 Games of a Genre
+            </h3>
+            <div className="text-center mb-4">
+              <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
+              <select 
+                id="platform-select" 
+                value={selectedGenre} 
+                onChange={async (e) => {
+                  const selectedOption = e.target.value;
+                  setcurroption(selectedOption);
+                  handleOption(selectedOption);
+                }} 
+                className="p-2 border rounded"
+              >
+                <option value="">--Please choose an option--</option>
+                {genreOptions.map((option: string) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <Bar data={dataGenre} options={options} />
+            <button 
+              onClick={() => handleOpenPopUp("Graphique 2", "")} 
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
+            >
+              Voir Détails
+            </button>
+          </div>
         </div>
       </main>
       <Footer />
@@ -158,4 +227,4 @@ function GenrePopularity() {
   );  
 }
 
-export default GenrePopularity;
+export default Genres;
