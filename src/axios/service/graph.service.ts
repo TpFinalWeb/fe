@@ -104,6 +104,17 @@ export class GraphService {
         }
     }
 
+    public static async getNumOfGameOfEachGenre(): Promise<any>{
+        try{
+            const result = await GraphProxy.getNumOfGameOfEachGenre();
+            console.log(result.aggregation);
+            return result;
+        }
+        catch(err){
+            return {success: false, message: err};
+        }
+    }
+
     
     
     

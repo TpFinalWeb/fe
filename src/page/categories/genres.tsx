@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import HeaderMain from "../../components/headerMain.tsx";
 import Footer from "../../components/footer.tsx";
 import Chart from "chart.js/auto";
-import { Bar, Line } from "react-chartjs-2";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { GraphService } from "../../axios/service/graph.service.ts";
 
@@ -10,21 +10,20 @@ Chart.register(CategoryScale);
 
 function Genres() {
   const [genreOptions, setGenreOptions] = useState<string[]>([]);
-  const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [dataset, setDataset] = useState<number[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
-  const [colors, setColors] = useState<string[]>([]);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [popUpContent, setPopUpContent] = useState({ title: "", description: "" });
   const [datasetpop, setdatasetpop] = useState([]);
   const [labelsPop, setlabelsPop] = useState([]);
   const [colors1, setColors1] = useState<string[]>([]);
   const [curroption, setcurroption] = useState<string>("");
-  const [dataGenre, setdataGenre] = useState([]);
   const [colors2, setColors2] = useState<string[]>([]);
+  const [labels2, setLabels2] = useState<string[]>([]);
+  const [dataset2, setDataset2] = useState<number[]>([]);
+  const [color3, setColors3] = useState<string[]>([]);
 
   
-
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -38,7 +37,7 @@ function Genres() {
       }
     };
 
-     const fetchData2 = async () => {
+     const fetchGenres2 = async () => {
       try{
         const response = await GraphService.getGenrePopularity();
         const data = response.aggregation;
@@ -81,8 +80,50 @@ function Genres() {
         console.error("Failed to fetch genres:", error);
       }
     };
+    const fetchGenres3 = async () => {
+          try{
+            const response = await GraphService.getNumOfGameOfEachGenre();
+            const data = response.aggregation;
+            let accum = 0;
+            const updatedData = data.reduce(
+              (acc, item) => {
+                if (item.count < 700) {
+                  accum += item.count;
+                  if (!acc.platforms.includes("Others")) {
+                    acc.platforms.push("Others");
+                    acc.count.push(accum);
+                  } else {
+                    acc.count[acc.platforms.indexOf("Others")] = accum;
+                  }
+                } else {
+              acc.platforms.push(item.genre_name);
+              acc.count.push(item.count);
+            }
+            return acc;
+          },
+          { platforms: [], count: [] }
+        );
+        
+        setLabels2(updatedData.platforms);
+        setDataset2(updatedData.count);
+        
+        let colorsArray: string[] = [];
+        for (let i = 0; i < updatedData.platforms.length; i++) {
+          const letters = '0123456789ABCDEF';
+          let color = '#';
+          for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+          colorsArray.push(color);
+        }
+        setColors3(colorsArray);
+      }catch(error){
+        console.log(error)
+      }
+    }
     fetchGenres();
-    fetchData2();
+    fetchGenres2();
+    fetchGenres3();
   }, []);
 
   async function handleOption(params: string) {
@@ -138,6 +179,20 @@ function Genres() {
     ],
   };
 
+  const data3 = {
+    
+    labels: labels2,
+    datasets: [
+      {
+        label: "Genre Game Distribution",
+        data: dataset2,
+        backgroundColor: color3,
+        borderColor: ["rgba(0,0,0,1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   const options = {
     scales: {
       x: {
@@ -162,19 +217,19 @@ function Genres() {
           Genre Popularity Over the Years
         </h2>
         <div className="flex flex-wrap justify-center gap-12 mt-10">
-          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
               Genre Popularity Chart
             </h3>
              <Line data={data1}/>
             <button 
               onClick={() => handleOpenPopUp("Graphique 1", "")} 
-              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
             </button>
           </div>
-          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
               Graphique 2: Top 10 Games of a Genre
             </h3>
@@ -201,7 +256,19 @@ function Genres() {
             <Bar data={data2} options={options} />
             <button 
               onClick={() => handleOpenPopUp("Graphique 2", "")} 
-              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
+            >
+              Voir Détails
+            </button>
+          </div>
+          <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
+            <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
+            Graphique 3 : Games Per Platforms
+            </h3>
+            <Pie data={data3} />
+            <button 
+              onClick={() => handleOpenPopUp("Graphique 2", "")} 
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
             </button>
