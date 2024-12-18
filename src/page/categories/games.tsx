@@ -21,7 +21,7 @@ function Games() {
   const [labels, setLabels] = useState<string[]>([]);
   const [dataset1, setDataset1] = useState([]);
   const [labels1, setLabels1] = useState<string[]>([]);
-  const [colors, setColors] = useState([]);
+  const [colors, setColors] = useState<string[]>([]);
   const [colors1, setColors1] = useState<string[]>([]);
   const [colors2, setColors2] = useState<string[]>([]);
   const [values, setValues] = useState([0, 12]); // Values for min and max

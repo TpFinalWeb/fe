@@ -16,11 +16,15 @@ export default function HeaderMain(){
         if(logout){
           console.log("User is disconnected");
           setIsConnected(false);
-          navigate('/login');
+          navigate('/');
         }
       }catch(error){
         console.log(error);
       } 
+    }
+
+    const logIn = async () => {
+      navigate('/login');
     }
 
     useEffect(() => {
@@ -51,9 +55,13 @@ export default function HeaderMain(){
                 </nav>
 
                 {
-                  isConnected &&
+                  isConnected ?
                   <div className="flex justify-end">
-                    <button className="ml-0 bg-teal-700 p-1 rounded flex mt-0" onClick={() => {logout()}}>Déconexion</button>
+                    <button className="ml-0 mr-5 bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-600 hover:to-teal-800 py-1 px-4 rounded-full flex mt-0 text-white shadow-lg transform transition-transform duration-300 hover:scale-105" onClick={() => {logout()}}>Déconnexion</button>
+                  </div>
+                  :
+                  <div className="flex justify-end">
+                    <button className="ml-0 mr-5 bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-600 hover:to-teal-800 py-1 px-4 rounded-full flex mt-0 text-white shadow-lg transform transition-transform duration-300 hover:scale-105" onClick={() => {logIn()}}>Se connecter</button>
                   </div>
                 }
         </header>
