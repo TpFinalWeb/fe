@@ -16,8 +16,8 @@ function Genres() {
   const [colors, setColors] = useState<string[]>([]);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [popUpContent, setPopUpContent] = useState({ title: "", description: "" });
-  const [datasets1, setDatasets1] = useState([]);
-  const [labels1, setLabels1] = useState([]);
+  const [datasetpop, setdatasetpop] = useState([]);
+  const [labelsPop, setlabelsPop] = useState([]);
   const [colors1, setColors1] = useState<string[]>([]);
   const [curroption, setcurroption] = useState<string>("");
   const [dataGenre, setdataGenre] = useState([]);
@@ -39,6 +39,7 @@ function Genres() {
     };
 
      const fetchData2 = async () => {
+      try{
         const response = await GraphService.getGenrePopularity();
         const data = response.aggregation;
         console.log(data);
@@ -62,8 +63,8 @@ function Genres() {
           { platforms: [], count: [] }
         );
     
-        setLabels1(updatedData.platforms);
-        setDatasets1(updatedData.count);
+        setlabelsPop(updatedData.platforms);
+        setdatasetpop(updatedData.count);
         
         let colorsArray: string[] = [];
         for (let i = 0; i < updatedData.platforms.length; i++) {
@@ -75,8 +76,11 @@ function Genres() {
           colorsArray.push(color);
         }
         setColors1(colorsArray);
-        
-        };
+      }
+      catch (error) {
+        console.error("Failed to fetch genres:", error);
+      }
+    };
     fetchGenres();
     fetchData2();
   }, []);
@@ -101,7 +105,6 @@ function Genres() {
       
     }
   }
-
   const handleOpenPopUp = (title: string, description: string) => {
     setPopUpContent({ title, description });
     setOpenPopUp(true);
@@ -109,12 +112,12 @@ function Genres() {
 
   const data1 = {
     
-    labels: labels1,
+    labels: labelsPop,
     datasets: [
       {
         label: "Genre Popularity",
-        data: datasets1,
-        backgroundColor: colors2,
+        data: datasetpop,
+        backgroundColor: colors1,
         borderColor: ["rgba(0,0,0,1)"],
         borderWidth: 1,
       },
@@ -128,7 +131,7 @@ function Genres() {
       {
         label: "Genre Popularity By Year",
         data: dataset,
-        backgroundColor: colors1,
+        backgroundColor: colors2,
         borderColor: ["rgba(0,0,0,1)"],
         borderWidth: 1,
       },
