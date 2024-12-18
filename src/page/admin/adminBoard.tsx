@@ -72,7 +72,7 @@ export default function AdminBoard() {
         dialog.close();
     }
     return (
-        <div>
+        <div className="font-mono">
             <Header />
             <div className="text-center">
                 <h1 className="text-4xl font-bold text-center mt-4">Admin Board</h1>
@@ -109,7 +109,7 @@ export default function AdminBoard() {
                                         onClick={() => openDialog(game)}>
                                         <img src={game.sample_cover?.image || noImage} className="w-60 h-40 mt-2 rounded-2xl max-h-60 mr-auto ml-5" />
 
-                                        <h1 className="text-2xl font-mono text-decoration-line: underline w-2/3">{game.name}</h1>
+                                        <h1 className="text-2xl text-decoration-line: underline w-2/3">{game.name}</h1>
                                     </li>
                                 ))
                             )}
@@ -126,37 +126,54 @@ export default function AdminBoard() {
             <dialog id="dialog" className="modal rounded-2xl h-2/3 w-1/2 ">
                 <div className="modal-box h-full pt-4">
                     <div className="flex justify-center">
-                        <h1 className="font-mono text-3xl font-bold text-decoration-line: underline text-center w-fit ">{currentGame?.name}</h1>
+                        <h1 className="text-3xl font-bold text-decoration-line: underline text-center w-fit ">{currentGame?.name}</h1>
                     </div>
 
                     <div>
                         <img src={currentGame?.sample_cover?.image || noImage} className="w-100 h-80 mt-2 rounded-2xl max-h-60 mx-auto" />
                     </div>
 
-                    <div className="flex flex-row mt-8">
-                        <p className="mx-3 font-bold italic text-decoration-line: underline">Description: </p>
-                        <div className="w-2/3 text-justify" dangerouslySetInnerHTML={{ __html: currentGame?.detailed_description || "" }} />
+                    <div className="flex flex-row mt-5 justify-center">
+                        {/* <p className="mx-3 font-bold italic text-decoration-line: underline">Description: </p> */}
+                        <div className="w-2/3 text-center" dangerouslySetInnerHTML={{ __html: currentGame?.detailed_description || "" }} />
                     </div>
 
-                    <div className="flex flex-row mt-8">
-                        <p className="mx-3 font-bold italic text-decoration-line: underline"> Availible on: </p>
-                        <div>
-                            {
-                                currentGame?.platforms.map((platform, index) => {
-                                    return (
-                                        <div key={index} className="flex flex-row mt-2">
-                                            <p className="w-2/3">{platform.platform_name}</p>
-                                        </div>
-                                    )
-                                })
-                            }
+                    <div className="grid grid-cols-2 mt-8">
+                        <div className="flex flex-row justify-center">
+                            <p className="mr-3 ml-10 font-bold italic text-decoration-line: underline">Available on: </p>
+                            <div className="flex flex-col ml-5">
+                                {
+                                    currentGame?.platforms.map((platform, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <p className="">{platform.platform_name}</p>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+
+                        <div className="flex flex-row justify-center">
+                            <p className="mx-3 font-bold italic text-decoration-line: underline">Genres: </p>
+                            <div className="flex flex-col ml-5">
+                                {
+                                    currentGame?.genres.map((genre, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <p className="">{genre.genre_name}</p>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
 
                     <div className="">
-                        <button className="bg-blue-500 h-10 w-20 rounded-lg ml-5 hover:bg-red-500 cursor-pointer" onClick={() => { closeDialog() }}>close</button>
+                        <button className="bg-blue-500 h-10 w-20 rounded-lg ml-5 hover:bg-red-500 cursor-pointer" onClick={() => { closeDialog() }}>Exit</button>
                     </div>
-                    <FontAwesomeIcon icon={faCircleXmark} />
+                    {/* <FontAwesomeIcon icon={faCircleXmark} /> */}
                 </div>
             </dialog>
 
