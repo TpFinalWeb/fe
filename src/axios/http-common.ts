@@ -5,7 +5,7 @@ import localForage from 'localforage';
 dotenv.config();
 
 const axiosConfig = {
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.USE_ALTERNATE_API === 'true' ? "https://backend-1-k2cb.onrender.com" : "https://localhost:3000",
     headers: {
         "Content-Type": "application/json",
     },
