@@ -1,11 +1,9 @@
-import dotenv from 'dotenv';
 import axios from 'axios';
 import localForage from 'localforage';
 
-dotenv.config();
 
 const axiosConfig = {
-    baseURL: process.env.USE_ALTERNATE_API === 'true' ? "https://backend-1-k2cb.onrender.com" : "https://localhost:3000",
+    baseURL: "https://backend-1-k2cb.onrender.com",
     headers: {
         "Content-Type": "application/json",
     },
