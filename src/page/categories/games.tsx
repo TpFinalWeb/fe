@@ -41,8 +41,13 @@ function Games() {
       const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
       setgenreOption(list);
     };
-    fetchData();
-    fetchdataGenre();
+    try{
+
+      fetchData();
+      fetchdataGenre();
+    }catch(error){
+      console.error("Failed to fetch platforms:", error);
+    }
   }, []);
 
   async function handleOption(params: string) {
@@ -91,6 +96,9 @@ function Games() {
   }
 
   const handleMonthRangeChange = async (startMonth: number, endMonth: number) => {
+    try{
+
+    
     setValues([startMonth, endMonth]);
     if (startMonth >= endMonth) {
       return;
@@ -111,6 +119,9 @@ function Games() {
       colorsArray.push(color);
     }
     setColors2(colorsArray);
+  }catch(error){
+    console.error("Failed to fetch platforms:", error);
+  }
   };
 
   

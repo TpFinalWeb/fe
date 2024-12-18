@@ -24,6 +24,7 @@ function Platformes() {
 
   useEffect(() => {
     const fetchData1 = async () => {
+      try{
       // Graph 1
     const response = await GraphService.getPlatformsWhereGamesReleaseFirst();
     const data = response.aggregation;
@@ -60,34 +61,38 @@ function Platformes() {
       colorsArray.push(color);
     }
     setColors(colorsArray);
-    
+  }catch(error){
+    console.log(error)
+  }
     };
 
     const fetchData2 = async () => {
-    // Graph 2
-    const response = await GraphService.getPlatformPopularity();
-    const data = response.aggregation;
-    console.log(data);
-    let accum = 0;
-    const updatedData = data.reduce(
+      try{
+
+        // Graph 2
+        const response = await GraphService.getPlatformPopularity();
+        const data = response.aggregation;
+        console.log(data);
+        let accum = 0;
+        const updatedData = data.reduce(
       (acc, item) => {
-      if (item.average_popularity < 1) {
-        accum += item.average_popularity;
-        if (!acc.platforms.includes("Others")) {
-        acc.platforms.push("Others");
-        acc.average_popularity.push(accum);
+        if (item.average_popularity < 1) {
+          accum += item.average_popularity;
+          if (!acc.platforms.includes("Others")) {
+            acc.platforms.push("Others");
+            acc.average_popularity.push(accum);
+          } else {
+            acc.average_popularity[acc.platforms.indexOf("Others")] = accum;
+          }
         } else {
-        acc.average_popularity[acc.platforms.indexOf("Others")] = accum;
+          acc.platforms.push(item.platform_name);
+          acc.average_popularity.push(item.average_popularity);
         }
-      } else {
-        acc.platforms.push(item.platform_name);
-        acc.average_popularity.push(item.average_popularity);
-      }
-      return acc;
+        return acc;
       },
       { platforms: [], average_popularity: [] }
     );
-
+    
     setLabels1(updatedData.platforms);
     setDatasets1(updatedData.average_popularity);
     
@@ -101,46 +106,54 @@ function Platformes() {
       colorsArray.push(color);
     }
     setColors1(colorsArray);
+  }catch(error){
+    console.log(error)
+  }
     
     };
     const fetchData3 = async () => {
-      // Graph 3
-      const response = await GraphService.getGamesPerPlatforms();
-      const data = response.aggregation;
-      let accum = 0;
-      const updatedData = data.reduce(
-        (acc, item) => {
-        if (item.count < 700) {
-          accum += item.count;
-          if (!acc.platforms.includes("Others")) {
-          acc.platforms.push("Others");
-          acc.count.push(accum);
-          } else {
-          acc.count[acc.platforms.indexOf("Others")] = accum;
-          }
-        } else {
+      try{
+
+        // Graph 3
+        const response = await GraphService.getGamesPerPlatforms();
+        const data = response.aggregation;
+        let accum = 0;
+        const updatedData = data.reduce(
+          (acc, item) => {
+            if (item.count < 700) {
+              accum += item.count;
+              if (!acc.platforms.includes("Others")) {
+                acc.platforms.push("Others");
+                acc.count.push(accum);
+              } else {
+                acc.count[acc.platforms.indexOf("Others")] = accum;
+              }
+            } else {
           acc.platforms.push(item.platform_name);
           acc.count.push(item.count);
         }
         return acc;
-        },
-        { platforms: [], count: [] }
-      );
-  
-      setLabels2(updatedData.platforms);
-      setDatasets2(updatedData.count);
-      
-      let colorsArray: string[] = [];
-      for (let i = 0; i < updatedData.platforms.length; i++) {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        colorsArray.push(color);
+      },
+      { platforms: [], count: [] }
+    );
+    
+    setLabels2(updatedData.platforms);
+    setDatasets2(updatedData.count);
+    
+    let colorsArray: string[] = [];
+    for (let i = 0; i < updatedData.platforms.length; i++) {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
       }
-      setColors2(colorsArray);
-      
+      colorsArray.push(color);
+    }
+    setColors2(colorsArray);
+  }catch(error){
+    console.log(error)
+  }
+    
       };
     fetchData1();
     fetchData2();
