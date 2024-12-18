@@ -39,7 +39,6 @@ function Games() {
     const fetchdataGenre = async () => {
       const data = await GraphService.getAllGenres();
       const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
-      console.log(list)
       setgenreOption(list);
     };
     fetchData();
@@ -47,6 +46,7 @@ function Games() {
   }, []);
 
   async function handleOption(params: string) {
+    try {
     const data = await GraphService.getTop10GamesOfPlatform(params);
     setDataset(data.aggregation.map((game: any) => game.score));
     setLabels(data.aggregation.map((game: any) => game.name));
@@ -61,7 +61,15 @@ function Games() {
     }
     setColors(colorsArray);
   }
+  catch (error) {
+    
+  }
+  }
+
   async function handleOption1(params: string) {
+    try {
+      
+    
     const data = await GraphService.getTop10GamesOfGenre(params)
     setDataset1(data.aggregation.map((game: any) => game.score));
     setLabels1(data.aggregation.map((game: any) => game.name));
@@ -76,6 +84,10 @@ function Games() {
     }
     setColors1(colorsArray);
     console.log(colors1)
+  }
+    catch (error) {
+      
+    }
   }
 
   const handleMonthRangeChange = async (startMonth: number, endMonth: number) => {
