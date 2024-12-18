@@ -2,7 +2,7 @@ import axios from 'axios';
 import localForage from 'localforage';
 
 const axiosConfig = {
-    baseURL: "https://localhost:3000",
+    baseURL: "https://backend-1-k2cb.onrender.com/",
     headers: {
         "Content-Type": "application/json",
     },
