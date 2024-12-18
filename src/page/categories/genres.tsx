@@ -179,7 +179,7 @@ function Genres() {
               <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
               <select 
                 id="platform-select" 
-                value={selectedGenre} 
+                value={curroption} 
                 onChange={async (e) => {
                   const selectedOption = e.target.value;
                   setcurroption(selectedOption);
