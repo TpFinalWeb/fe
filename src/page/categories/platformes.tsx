@@ -18,9 +18,9 @@ function Platformes() {
   const [labels2, setLabels2] = useState([]);
   const [options, setOptions] = useState([]);
   const [curroptions, setCurroptions] = useState("");
-  const [colors, setColors] = useState([]);
-  const [colors1, setColors1] = useState([]);
-  const [colors2, setColors2] = useState([]);
+  const [colors, setColors] = useState<string[]>([]);
+  const [colors1, setColors1] = useState<string[]>([]);
+  const [colors2, setColors2] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData1 = async () => {
@@ -50,7 +50,7 @@ function Platformes() {
     setLabels(updatedData.platforms);
     setDatasets(updatedData.gameCounts);
     
-    let colorsArray = [];
+    let colorsArray: string[] = [];
     for (let i = 0; i < updatedData.platforms.length; i++) {
       const letters = '0123456789ABCDEF';
       let color = '#';
@@ -91,7 +91,7 @@ function Platformes() {
     setLabels1(updatedData.platforms);
     setDatasets1(updatedData.average_popularity);
     
-    let colorsArray = [];
+    let colorsArray: string[] = [];
     for (let i = 0; i < updatedData.platforms.length; i++) {
       const letters = '0123456789ABCDEF';
       let color = '#';
@@ -130,7 +130,7 @@ function Platformes() {
       setLabels2(updatedData.platforms);
       setDatasets2(updatedData.count);
       
-      let colorsArray = [];
+      let colorsArray: string[] = [];
       for (let i = 0; i < updatedData.platforms.length; i++) {
         const letters = '0123456789ABCDEF';
         let color = '#';
