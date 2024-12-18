@@ -25,9 +25,9 @@ apiClient.interceptors.request.use(
 
 
 export async function setToken(token: string){
-    try{
-        await localForage.setItem('token', token);
-    }catch(error){
+    try {
+        localStorage.setItem('token', token);
+    } catch (error) {
         console.log(error);
     }
 }
@@ -46,8 +46,10 @@ export async function getToken(){
 export async function removeToken(){
     try{
         await localForage.removeItem('token');
+        const token = await localForage.getItem('token');
+        return token === null;
     }catch(error){
-        console.log(error);
+        return false;
     }
 }
 export default apiClient;

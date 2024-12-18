@@ -5,6 +5,7 @@ import Chart from "chart.js/auto";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { GraphService } from "../../axios/service/graph.service.ts";
+import { UserService } from "../../axios/service/user.service.ts";
 import { useNavigate } from "react-router";
 Chart.register(CategoryScale);
 
@@ -25,78 +26,90 @@ function Games() {
   const [values, setValues] = useState([0, 12]); // Values for min and max
   const [datasetGenre, setdatasetGenre] = useState([]);
   const [labels2, setLabels2] = useState<string[]>([]);
-  const [months, setMonths] = useState(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]);
+  const [isConnected, setIsConnected] = useState(false);
 
   const navigate = useNavigate();
 
+  const [months, setMonths] = useState(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]);
   const handleOpenPopUp = (title: string, description: string) => {
     setPopUpContent({ title, description });
     setOpenPopUp(true);
   };
 
   useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const token = await UserService.getToken();
+        if (token) {
+          setIsConnected(true);
+        }
+        else {
+          setIsConnected(false);
+          navigate('/login');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
     const fetchData = async () => {
       const data = await GraphService.getAllPlatforms();
-
-      if(data.status === 403){
-        navigate("/unauthorized");
-      }
-      else{
-        const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
-        setPlatformOptions(list);
-      }
+      const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
+      setPlatformOptions(list);
     };
-    // const fetchdataGenre = async () => {
-    //   const data = await GraphService.getAllGenres();
-    //   const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
-    //   setgenreOption(list);
-    // };
-    fetchData();
-    // fetchdataGenre();
+    const fetchdataGenre = async () => {
+      const data = await GraphService.getAllGenres();
+      const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
+      setgenreOption(list);
+    };
+
+    if (isConnected) {
+      fetchData();
+      fetchdataGenre();
+    }
   }, []);
 
   async function handleOption(params: string) {
     try {
-      const data = await GraphService.getTop10GamesOfPlatform(params);
-      setDataset(data.aggregation.map((game: any) => game.score));
-      setLabels(data.aggregation.map((game: any) => game.name));
-      let colorsArray: string[] = [];
-      for (let i = 0; i < data.aggregation.length; i++) {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let j = 0; j < 6; j++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        colorsArray.push(color);
+    const data = await GraphService.getTop10GamesOfPlatform(params);
+    setDataset(data.aggregation.map((game: any) => game.score));
+    setLabels(data.aggregation.map((game: any) => game.name));
+    let colorsArray: string[] = [];
+    for (let i = 0; i < data.aggregation.length; i++) {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let j = 0; j < 6; j++) {
+        color += letters[Math.floor(Math.random() * 16)];
       }
-      setColors(colorsArray);
+      colorsArray.push(color);
     }
-    catch (error) {
-
-    }
+    setColors(colorsArray);
+  }
+  catch (error) {
+    
+  }
   }
 
   async function handleOption1(params: string) {
     try {
-
-
-      const data = await GraphService.getTop10GamesOfGenre(params)
-      setDataset1(data.aggregation.map((game: any) => game.score));
-      setLabels1(data.aggregation.map((game: any) => game.name));
-      let colorsArray: string[] = [];
-      for (let i = 0; i < data.aggregation.length; i++) {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let j = 0; j < 6; j++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        colorsArray.push(color);
+      
+    
+    const data = await GraphService.getTop10GamesOfGenre(params)
+    setDataset1(data.aggregation.map((game: any) => game.score));
+    setLabels1(data.aggregation.map((game: any) => game.name));
+    let colorsArray: string[] = [];
+    for (let i = 0; i < data.aggregation.length; i++) {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let j = 0; j < 6; j++) {
+        color += letters[Math.floor(Math.random() * 16)];
       }
-      setColors1(colorsArray);
-      console.log(colors1)
+      colorsArray.push(color);
     }
+    setColors1(colorsArray);
+    console.log(colors1)
+  }
     catch (error) {
-
+      
     }
   }
 
@@ -201,14 +214,14 @@ function Games() {
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">Select Platform:</label>
-              <select
-                id="platform-select"
-                value={curroption}
+              <select 
+                id="platform-select" 
+                value={curroption} 
                 onChange={async (e) => {
                   const selectedOption = e.target.value;
                   setcurroption(selectedOption);
                   handleOption(selectedOption);
-                }}
+                }} 
                 className="p-2 border rounded"
               >
                 <option value="">--Please choose an option--</option>
@@ -220,8 +233,8 @@ function Games() {
               </select>
             </div>
             <Bar data={data} options={options} />
-            <button
-              onClick={() => handleOpenPopUp("Graphique 1", descGraph1)}
+            <button 
+              onClick={() => handleOpenPopUp("Graphique 1", descGraph1)} 
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
             >
               Voir Détails
@@ -234,14 +247,14 @@ function Games() {
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
-              <select
-                id="platform-select"
-                value={curroption1}
+              <select 
+                id="platform-select" 
+                value={curroption1} 
                 onChange={async (e) => {
                   const selectedOption = e.target.value;
                   setcurroption1(selectedOption);
                   handleOption1(selectedOption);
-                }}
+                }} 
                 className="p-2 border rounded"
               >
                 <option value="">--Please choose an option--</option>
@@ -253,8 +266,8 @@ function Games() {
               </select>
             </div>
             <Bar data={dataGenre} options={optionsGenre} />
-            <button
-              onClick={() => handleOpenPopUp("Graphique 2", descGraph2)}
+            <button 
+              onClick={() => handleOpenPopUp("Graphique 2", descGraph2)} 
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
             >
               Voir Détails
@@ -276,7 +289,7 @@ function Games() {
               >
                 {Array.from({ length: 13 }, (_, i) => i).map((month) => (
                   <option key={month} value={month}>
-                    {months[month - 1]}
+                    {months[month-1]}
                   </option>
                 ))}
               </select>
@@ -290,7 +303,7 @@ function Games() {
               >
                 {Array.from({ length: 13 }, (_, i) => i).map((month) => (
                   <option key={month} value={month}>
-                    {months[month - 1]}
+                    {months[month-1]}
                   </option>
                 ))}
               </select>
@@ -298,8 +311,8 @@ function Games() {
 
             <Line data={data2Months} />
 
-            <button
-              onClick={() => handleOpenPopUp("Graphique 3", descGraph3)}
+            <button 
+              onClick={() => handleOpenPopUp("Graphique 3", descGraph3)} 
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
             >
               Voir Détails
@@ -311,10 +324,10 @@ function Games() {
 
       {openPopUp && (
         <div className="fixed bg-black bg-opacity-50 w-full h-full flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg max-w-2xl p-20 px-10">
+          <div className="bg-white rounded-lg shadow-lg max-w-2xl p-20 px-10">  
             <h2 className="text-xl font-bold text-teal-700 mb-4 font-mono">
               {popUpContent.title}
-            </h2>
+            </h2> 
             <p className="mb-6 text-gray-700">{popUpContent.description}</p>
             <button onClick={() => setOpenPopUp(false)} className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono">
               Fermer

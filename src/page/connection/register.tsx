@@ -74,7 +74,7 @@ const handleSubmit = async (e) => {
       const response = await UserService.registerUser(userToRegister);
       if(response.success === true){
         UserService.loginUser(email, password); // to create a token and put it in localstorage
-        navigate('/games'); // i should probably put it in UserService.loginUser
+        //navigate('/games'); // i should probably put it in UserService.loginUser
       }
       else{
         setError(response.message)

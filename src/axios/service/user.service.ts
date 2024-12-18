@@ -1,4 +1,4 @@
-import { setToken } from "../http-common.ts";
+import { removeToken, setToken, getToken } from "../http-common.ts";
 import { User } from "../models/user.model";
 import UserProxy from "../proxy/userProxy.ts";
 
@@ -15,14 +15,36 @@ export class UserService {
         }
     }
 
-    public static async loginUser(email: string, password: string): Promise<string>{
+    public static async loginUser(email: string, password: string): Promise<number>{
         try{
             const token = await UserProxy.login(email, password);
-            setToken(token);
+            if(token.success === true){
+                console.log(token)
+                setToken(token['token']);
+            }
+
+            return token.code;
+        }catch(error){
+            console.log(error);
+            return error;
+        }
+    }
+
+    public static async logoutUser(): Promise<boolean>{
+        try{
+            const isDeleted = await removeToken();
+            return isDeleted;
+        }catch(error){
+            return false;
+        }
+    }
+
+    public static async getToken(): Promise<string>{
+        try{
+            const token = await getToken();
             return token;
         }catch(error){
-            //console.log(error);
-            return "error in file user.service.ts function loginUser";
+            return "error in file user.service.ts function getToken";
         }
     }
 }

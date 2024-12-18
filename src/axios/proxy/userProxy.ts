@@ -17,9 +17,9 @@ export default class UserProxy {
     public static async login(email: string, password: string): Promise<any> {
         try{
             const result = await apiClient.post("/login", {email, password});
-            return result.data;
+            return {success: true, code: result.status, token: result.data.token};
         }catch(error){
-            return error.response.data.message;
+            return {success: false, code: error.status, message: error.data};
         }
     }
 

@@ -26,13 +26,17 @@ const handleSubmit = async (e) => {
       setError('Le format de l\'email est invalide');
       return;
     }
+
     setError('');
     try{
-      await UserService.loginUser(email, password);
-      navigate('/games');
+      const login = await UserService.loginUser(email, password);
+      if(login === 200){
+        navigate('/games');
+      }else{
+        setError('Email ou mot de passe incorrect');
+      }
     }catch(err){
       console.log(err);
-      setError('Erreur interne, réessayez plus tard');
     }
   };
 
