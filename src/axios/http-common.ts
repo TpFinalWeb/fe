@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
 import axios from 'axios';
 import localForage from 'localforage';
 
+dotenv.config();
+
 const axiosConfig = {
-    baseURL: "https://backend-1-k2cb.onrender.com/",
+    baseURL: process.env.BASE_URL,
     headers: {
         "Content-Type": "application/json",
     },
@@ -12,9 +15,9 @@ const apiClient = axios.create(axiosConfig);
 
 apiClient.interceptors.request.use(
     async (config) => {
-        const token = await getToken(); // Get the token from local storage
+        const token = await getToken();
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`; // Set the Authorization header
+            config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
@@ -23,31 +26,31 @@ apiClient.interceptors.request.use(
     }
 );
 
-
-export async function setToken(token: string){
-    try{
+export async function setToken(token: string) {
+    try {
         await localForage.setItem('token', token);
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 }
 
-export async function getToken(){
-    try{
-        const token = await localForage.getItem('token') as JSON;
-        if(token){
+export async function getToken() {
+    try {
+        const token = (await localForage.getItem('token')) as JSON;
+        if (token) {
             return token['token'];
         }
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 }
 
-export async function removeToken(){
-    try{
+export async function removeToken() {
+    try {
         await localForage.removeItem('token');
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 }
+
 export default apiClient;
