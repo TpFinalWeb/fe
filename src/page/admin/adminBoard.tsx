@@ -5,7 +5,6 @@ import noImage from "../../assets/noImageFound.png";
 import GameProxy from "../../axios/proxy/gameProxy.ts";
 import { GameI } from "../../axios/models/game.model.ts";
 import PacmanLoader from "react-spinners/PacmanLoader";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function AdminBoard() {
 
@@ -17,7 +16,7 @@ export default function AdminBoard() {
 
     const eraseDialogId = "deleteVerificationDialog";
 
-    const getGamesCall = async (value) => {
+    const getGamesCall = async (value: string) => {
         try {
             const allGames = await GameProxy.getGames(value)
             console.log(allGames)
@@ -42,12 +41,12 @@ export default function AdminBoard() {
         console.log(searchGame)
     }
 
-    const handleEnterPress = (event) => {
+    const handleEnterPress = (event: KeyboardEvent) => {
         if (event.key === 'Enter' && !enterPressed) {
             setEnterPressed(true);
         }
     }
-    const handleEnterRelease = async (event) => {
+    const handleEnterRelease = async (event: KeyboardEvent) => {
         if (event.key === 'Enter') {
             setEnterPressed(false);
             await searchForGames(searchGame);
@@ -60,7 +59,7 @@ export default function AdminBoard() {
         return () => { window.removeEventListener('keydown', handleEnterPress); window.removeEventListener('keyup', handleEnterRelease); };
     }, [searchGame])
 
-    const openDialog = (game) => {
+    const openDialog = (game: GameI) => {
         setCurrentGame(game);
         const dialog = document.getElementById("dialog") as HTMLDialogElement;
         dialog.showModal();
@@ -72,12 +71,12 @@ export default function AdminBoard() {
         dialog.close();
     }
 
-    const openEraseDialog = (dialogId) => {
+    const openEraseDialog = (dialogId: string) => {
         const dialog = document.getElementById(dialogId) as HTMLDialogElement;
         dialog.showModal();
     }
 
-    const closeEraseDialog = (dialogId) => {
+    const closeEraseDialog = (dialogId: string) => {
         const dialog = document.getElementById(dialogId) as HTMLDialogElement;
         dialog.close();
     }
@@ -129,7 +128,7 @@ export default function AdminBoard() {
                                 gamesSearched.map((game, index) => (
                                     <li key={index} className="p-3 hover:bg-gray-200 cursor-pointer flex flex-row items-center"
                                         onClick={() => openDialog(game)}>
-                                        <img src={game.sample_cover?.image || noImage} className="w-60 h-40 mt-2 rounded-2xl max-h-60 mr-auto ml-5" />
+                                        <img src={game.sample_cover?.image || noImage} alt="game_cover" className="w-60 h-40 mt-2 rounded-2xl max-h-60 mr-auto ml-5" />
 
                                         <h1 className="text-2xl text-decoration-line: underline w-2/3">{game.name}</h1>
                                     </li>
@@ -158,7 +157,7 @@ export default function AdminBoard() {
                     </div>
 
                     <div>
-                        <img src={currentGame?.sample_cover?.image || noImage} className="w-100 h-80 mt-2 rounded-2xl max-h-60 mx-auto" />
+                        <img src={currentGame?.sample_cover?.image || noImage} alt="game_cover" className="w-100 h-80 mt-2 rounded-2xl max-h-60 mx-auto" />
                     </div>
 
                     <div className="flex flex-row mt-5 justify-center">
