@@ -195,7 +195,7 @@ function Genres() {
                 ))}
               </select>
             </div>
-            <Bar data={dataGenre} options={options} />
+            <Bar data={data2} options={options} />
             <button 
               onClick={() => handleOpenPopUp("Graphique 2", "")} 
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
