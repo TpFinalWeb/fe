@@ -24,7 +24,7 @@ export class UserService {
 
             return token.code;
         } catch (error) {
-            return error;
+            return Number(error);
         }
     }
 
@@ -40,7 +40,7 @@ export class UserService {
     public static async getToken(): Promise<string> {
         try {
             const token = await getToken();
-            return token;
+            return token ?? "default_token";
         } catch (error) {
             return "error in file user.service.ts function getToken";
         }

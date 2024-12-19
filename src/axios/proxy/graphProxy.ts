@@ -1,3 +1,4 @@
+import axios from "axios";
 import apiClient from "../http-common.ts"
 
 
@@ -8,7 +9,13 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getPlatformsWhereGamesReleaseFirst");
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
+                    return error.response.data.message;
+                }
+                return { success: false, message: 'An unknown error occurred' };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -16,8 +23,11 @@ export default class GraphProxy {
         try {
             const result = await apiClient.get("/aggregations/getPlatformsPopularity");
             return result.data;
-        } catch (error) {
-            return error.response.data.message;
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response) {
+                return error.response.data.message;
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -25,8 +35,11 @@ export default class GraphProxy {
         try {
             const result = await apiClient.get("/aggregations/getGamesPerPlatforms");
             return result.data;
-        } catch (error) {
-            return error.response.data.message;
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response) {
+                return error.response.data.message;
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -34,8 +47,11 @@ export default class GraphProxy {
         try {
             const result = await apiClient.get("/aggregations/getGenrePopularity");
             return result.data;
-        } catch (error) {
-            return error.response.data.message;
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response) {
+                return error.response.data.message;
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -43,8 +59,11 @@ export default class GraphProxy {
         try {
             const result = await apiClient.get("/aggregations/getGenreYearlyPopularity", {params: {genre_name}});
             return result.data;
-        } catch (error) {
-            return error.response.data.message;
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response) {
+                return error.response.data.message;
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -52,8 +71,11 @@ export default class GraphProxy {
         try {
             const result = await apiClient.get("/aggregations/getNumOfGameOfEachGenre");
             return result.data;
-        } catch (error) {
-            return error.response.data.message;
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response) {
+                return error.response.data.message;
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -62,7 +84,13 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getPlatPopularityBy2Months", {params: {startMonth, endMonth}});
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
+                    return error.response.data.message;
+                }
+                return { success: false, message: 'An unknown error occurred' };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -71,7 +99,13 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getTop10GamesOfPlatform", {params: {platform_name}});
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
+                    return error.response.data.message;
+                }
+                return { success: false, message: 'An unknown error occurred' };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -84,7 +118,10 @@ export default class GraphProxy {
           return result.data; // Ensure this is what your API returns (e.g., an object with `aggregation`)
         } catch (error) {
           console.error(error);
-          return { success: false, message: error.message };  // Handle errors properly
+          if (error instanceof Error) {
+            return { success: false, message: error.message };  // Handle errors properly
+          }
+          return { success: false, message: 'An unknown error occurred' };
         }
       }
 
@@ -93,7 +130,13 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getPlatformQualityByTime", {params: {platform_name}});
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
+                    return error.response.data.message;
+                }
+                return { success: false, message: 'An unknown error occurred' };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -102,7 +145,13 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getGenreQualityByTime", {params: {genre_name}});
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
+                    return error.response.data.message;
+                }
+                return { success: false, message: 'An unknown error occurred' };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -111,7 +160,13 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getGOTY");
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
+                    return error.response.data.message;
+                }
+                return { success: false, message: 'An unknown error occurred' };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 
@@ -120,7 +175,13 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getAllGenres");
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            if (axios.isAxiosError(error) && error.response) {
+                if (axios.isAxiosError(error) && error.response) {
+                    return error.response.data.message;
+                }
+                return { success: false, message: 'An unknown error occurred' };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
     public static async getAllPlatforms(): Promise<any> {
@@ -128,9 +189,11 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getAllPlatforms");
             return result.data;
         } catch (error) {
-            console.log(error.status);	
-            //return error.response.data.message;
-            return { success: false, status: error.status, message: error.message };
+            if (axios.isAxiosError(error) && error.response) {
+                console.log(error.response.status);
+                return { success: false, status: error.response.status, message: error.message };
+            }
+            return { success: false, message: 'An unknown error occurred' };
         }
     }
 }

@@ -200,9 +200,12 @@ function Games() {
     scales: {
       x: {
         ticks: {
-          callback: function (value) {
-            const label = this.getLabelForValue(value); 
-            return label.length > 10 ? label.substring(0, 10) + '...' : label; 
+          callback: function (value: any): string {
+            const label = labels[value];
+            if (label) {
+              return label.length > 10 ? label.substring(0, 10) + '...' : label;
+            }
+            return '';
           },
         },
       },
@@ -217,8 +220,8 @@ function Games() {
     scales: {
       x: {
         ticks: {
-          callback: function (value) {
-            const label = this.getLabelForValue(value); 
+          callback: function (value: any): string {
+            const label = labels1[value];
             return label.length > 10 ? label.substring(0, 10) + '...' : label; 
           },
         },

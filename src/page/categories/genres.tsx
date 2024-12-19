@@ -44,7 +44,7 @@ function Genres() {
         console.log(data);
         let accum = 0;
         const updatedData = data.reduce(
-          (acc, item) => {
+          (acc: { platforms: string[]; count: number[]; }, item: { count: number; genre_name: any; }) => {
           if (item.count < 1) {
             accum += item.count;
             if (!acc.platforms.includes("Others")) {
@@ -86,7 +86,7 @@ function Genres() {
             const data = response.aggregation;
             let accum = 0;
             const updatedData = data.reduce(
-              (acc, item) => {
+              (acc: { platforms: string[]; count: number[]; }, item: { count: number; genre_name: any; }) => {
                 if (item.count < 700) {
                   accum += item.count;
                   if (!acc.platforms.includes("Others")) {
@@ -198,8 +198,8 @@ function Genres() {
       x: {
         ticks: {
           callback: function (value: any) {
-            const label = this.getLabelForValue(value);
-            return label.length > 10 ? `${label.substring(0, 10)}...` : label;
+            const label: string = (this as any).getLabelForValue(value);
+            return label.length > 10 ? label.substring(0, 10) + '...' : label;
           },
         },
       },

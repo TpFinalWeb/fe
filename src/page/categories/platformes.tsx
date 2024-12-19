@@ -30,7 +30,7 @@ function Platformes() {
     const data = response.aggregation;
     let accum = 0;
     const updatedData = data.reduce(
-      (acc, item) => {
+      (acc: { platforms: string[]; gameCounts: number[]; }, item: { gameCount: number; platformName: any; }) => {
       if (item.gameCount < 200) {
         accum += item.gameCount;
         if (!acc.platforms.includes("Others")) {
@@ -75,7 +75,7 @@ function Platformes() {
         console.log(data);
         let accum = 0;
         const updatedData = data.reduce(
-      (acc, item) => {
+      (acc: { platforms: string[]; average_popularity: number[]; }, item: { average_popularity: number; platform_name: any; }) => {
         if (item.average_popularity < 1) {
           accum += item.average_popularity;
           if (!acc.platforms.includes("Others")) {
@@ -119,7 +119,7 @@ function Platformes() {
         const data = response.aggregation;
         let accum = 0;
         const updatedData = data.reduce(
-          (acc, item) => {
+          (acc: { platforms: string[]; count: number[]; }, item: { count: number; platform_name: any; }) => {
             if (item.count < 700) {
               accum += item.count;
               if (!acc.platforms.includes("Others")) {

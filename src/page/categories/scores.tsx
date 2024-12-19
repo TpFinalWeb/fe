@@ -52,7 +52,7 @@ function Scores() {
         const data = response.aggregation;
         let accum = 0;
         const updatedData = data.reduce(
-          (acc, item) => {
+          (acc: { platforms: string[]; top_score: number[]; }, item: { top_score: number; top_game: any; }) => {
             if (item.top_score < 1) {
               accum += item.top_score;
               if (!acc.platforms.includes("Others")) {
@@ -180,8 +180,8 @@ function Scores() {
     scales: {
       x: {
         ticks: {
-          callback: function (value) {
-            const label = this.getLabelForValue(value);
+          callback: function (value: any) {
+            const label: string = (this as any).getLabelForValue(value);
             return label.length > 10 ? label.substring(0, 10) + '...' : label;
           },
         },
@@ -198,8 +198,8 @@ function Scores() {
     scales: {
       x: {
         ticks: {
-          callback: function (value) {
-            const label = this.getLabelForValue(value);
+          callback: function (value: any): string {
+            const label = (this as any).getLabelForValue(value);
             return label.length > 10 ? label.substring(0, 10) + '...' : label;
           },
         },
@@ -215,8 +215,8 @@ function Scores() {
     scales: {
       x: {
         ticks: {
-          callback: function (value) {
-            const label = this.getLabelForValue(value); 
+          callback: function (value: any): string {
+            const label = (this as any).getLabelForValue(value); 
             return label.length > 10 ? label.substring(0, 10) + '...' : label; 
           },
         },
