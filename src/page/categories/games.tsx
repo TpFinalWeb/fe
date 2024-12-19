@@ -51,23 +51,35 @@ function Games() {
     }
 
     const fetchData = async () => {
-      const data = await GraphService.getAllPlatforms();
-      const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
-      setPlatformOptions(list);
+      try{
+
+        const data = await GraphService.getAllPlatforms();
+        const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
+        setPlatformOptions(list);
+      }catch(error){
+        console.error("Failed to fetch platforms:", error);
+      }
     };
     const fetchdataGenre = async () => {
-      const data = await GraphService.getAllGenres();
-      console.log(data)
-      const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
-      setgenreOption(list);
+      try{
+        const data = await GraphService.getAllGenres();
+        const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
+        setgenreOption(list);
+      }catch(error){
+        console.error("Failed to fetch platforms:", error);
+      }
+      
     };
-
     verifyConnection();
     if(isConnected){
+    try{
       fetchData();
       fetchdataGenre();
+    }catch(error){
+      console.error("Failed to fetch platforms:", error);
     }
-  }, [isConnected]);
+  }
+}, [isConnected]);
 
   async function handleOption(params: string) {
     try {
@@ -115,6 +127,9 @@ function Games() {
   }
 
   const handleMonthRangeChange = async (startMonth: number, endMonth: number) => {
+    try{
+
+    
     setValues([startMonth, endMonth]);
     if (startMonth >= endMonth) {
       return;
@@ -135,11 +150,14 @@ function Games() {
       colorsArray.push(color);
     }
     setColors2(colorsArray);
+  }catch(error){
+    console.error("Failed to fetch platforms:", error);
+  }
   };
 
-  const truncatedLabels = labels.map(label => label.length > 10 ? label.substring(0, 10) + "..." : label);
+  
   const data = {
-    labels: truncatedLabels,
+    labels: labels,
     datasets: [
       {
         label: "Top 10 Games of a Platform",
@@ -151,9 +169,9 @@ function Games() {
     ]
   };
 
-  const truncatedLabels1 = labels1.map(label => label.length > 10 ? label.substring(0, 10) + "..." : label);
+ 
   const dataGenre = {
-    labels: truncatedLabels1,
+    labels: labels1,
     datasets: [
       {
         label: "Top 10 Games of a Genre",
@@ -180,6 +198,14 @@ function Games() {
 
   const options = {
     scales: {
+      x: {
+        ticks: {
+          callback: function (value) {
+            const label = this.getLabelForValue(value); 
+            return label.length > 10 ? label.substring(0, 10) + '...' : label; 
+          },
+        },
+      },
       y: {
         beginAtZero: false,
         min: Math.min(...dataset) - 0.2,
@@ -189,6 +215,14 @@ function Games() {
   };
   const optionsGenre = {
     scales: {
+      x: {
+        ticks: {
+          callback: function (value) {
+            const label = this.getLabelForValue(value); 
+            return label.length > 10 ? label.substring(0, 10) + '...' : label; 
+          },
+        },
+      },
       y: {
         beginAtZero: false,
         min: Math.min(...dataset1) - 0.2,
