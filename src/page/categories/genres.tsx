@@ -242,7 +242,7 @@ function Genres() {
           </div>
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Les genres les plus votes au fil des années.
+              Les genres les plus votes au fil des années
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
@@ -256,7 +256,7 @@ function Genres() {
                 }} 
                 className="p-2 border rounded"
               >
-                <option value="">--Please choose an option--</option>
+                <option value="">--Veuillez choisir une option--</option>
                 {genreOptions.map((option: string) => (
                   <option key={option} value={option}>
                     {option}

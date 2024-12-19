@@ -168,7 +168,7 @@ function Platformes() {
     labels: labels,
     datasets: [
       {
-        label: "Games First Release Per Platforms",
+        label: "Première sortie des jeux par plateforme",
         data: datasets,
         backgroundColor: colors,
         borderColor: ["rgba(0,0,0,1)"],
@@ -201,7 +201,12 @@ function Platformes() {
       },
     ],
   };
-  const descGraph1 = `
+  const graphDesc1 = `
+  Ce graphique illustre la tendance de sortie des jeux sur une plateforme spécifique. Il met en avant les jeux créés en premier sur cette plateforme, en montrant leur distribution chronologique. 
+  Cela permet d'identifier la plateforme la plus active en termes de développement et de sorties de jeux.
+  `
+
+  const graphDesc2 = `
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
   molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
   numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
@@ -216,22 +221,7 @@ function Platformes() {
   !
   `
 
-  const descGraph2 = `
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-  molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-  numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-  optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-  obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-  nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-  tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-  quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-  recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-  !
-  `
-
-  const descGraph3 = `
+  const graphDesc3 = `
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
   molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
   numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
@@ -254,23 +244,38 @@ function Platformes() {
                 Visualisation des données de platformes jouées
             </h2>
             <div className="flex flex-wrap justify-center gap-12 mt-10">
-                <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer" onClick={() => handleOpenPopUp("Grpahique 1",descGraph1)}>
+                <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
                     <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-                        Graphique 1: Games release trend
+                      Tendance de la première sortie des jeux par plateforme
                     </h3>
                     <Bar data={data} className=""/>
+                    <button 
+                      onClick={() => handleOpenPopUp("Graphique 3", graphDesc1)} 
+                      className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
+                      Voir Détails
+                    </button>
                 </div>
-                <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer" onClick={() => handleOpenPopUp("Grpahique 2",descGraph2)}>
+                <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
                     <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
                         Graphique 2 : Platforms Popularity
                     </h3>
                     <Line data={data1}/>
+                    <button 
+                      onClick={() => handleOpenPopUp("Graphique 3", graphDesc2)} 
+                      className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
+                      Voir Détails
+                    </button>
                 </div>
-                <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer" onClick={() => handleOpenPopUp("Grpahique 3",descGraph3)}>
+                <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
                     <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
                     Graphique 3 :Games Per Platforms
                     </h3>
                     <Pie data={data2} />
+                    <button 
+                      onClick={() => handleOpenPopUp("Graphique 3", graphDesc3)} 
+                      className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
+                      Voir Détails
+                    </button>
                 </div>
             </div>
         </main>
