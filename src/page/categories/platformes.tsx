@@ -4,7 +4,9 @@ import Footer from "../../components/footer.tsx";
 import Chart from "chart.js/auto";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
-import {GraphService} from "../../axios/service/graph.service.ts";
+import { GraphService } from "../../axios/service/graph.service.ts";
+import { useNavigate } from "react-router";
+import { getToken } from "../../axios/http-common.ts";
 Chart.register(CategoryScale);
 
 function Platformes() {
@@ -22,52 +24,71 @@ function Platformes() {
   const [colors1, setColors1] = useState<string[]>([]);
   const [colors2, setColors2] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchData1 = async () => {
-      try{
-      // Graph 1
-    const response = await GraphService.getPlatformsWhereGamesReleaseFirst();
-    const data = response.aggregation;
-    let accum = 0;
-    const updatedData = data.reduce(
-      (acc: { platforms: string[]; gameCounts: number[]; }, item: { gameCount: number; platformName: any; }) => {
-      if (item.gameCount < 200) {
-        accum += item.gameCount;
-        if (!acc.platforms.includes("Others")) {
-        acc.platforms.push("Others");
-        acc.gameCounts.push(accum);
-        } else {
-        acc.gameCounts[acc.platforms.indexOf("Others")] = accum;
-        }
-      } else {
-        acc.platforms.push(item.platformName);
-        acc.gameCounts.push(item.gameCount);
-      }
-      return acc;
-      },
-      { platforms: [], gameCounts: [] }
-    );
+  const [isConnected, setIsConnected] = useState(false);
 
-    setLabels(updatedData.platforms);
-    setDatasets(updatedData.gameCounts);
-    
-    let colorsArray: string[] = [];
-    for (let i = 0; i < updatedData.platforms.length; i++) {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    const verifyConnection = async () => {
+      const token = getToken();
+      if (token == null) {
+        setIsConnected(false);
+        navigate("/login");
       }
-      colorsArray.push(color);
+      else {
+        setIsConnected(true);
+      }
     }
-    setColors(colorsArray);
-  }catch(error){
-    console.log(error)
-  }
+
+    verifyConnection();
+
+    const fetchData1 = async () => {
+      try {
+        // Graph 1
+        const response = await GraphService.getPlatformsWhereGamesReleaseFirst();
+        const data = response.aggregation;
+        let accum = 0;
+        const updatedData = data.reduce(
+          (acc: { platforms: string[]; gameCounts: number[]; }, item: { gameCount: number; platformName: any; }) => {
+            if (item.gameCount < 200) {
+              accum += item.gameCount;
+              if (!acc.platforms.includes("Others")) {
+                acc.platforms.push("Others");
+                acc.gameCounts.push(accum);
+              } else {
+                acc.gameCounts[acc.platforms.indexOf("Others")] = accum;
+              }
+            } else {
+              acc.platforms.push(item.platformName);
+              acc.gameCounts.push(item.gameCount);
+            }
+            return acc;
+          },
+          { platforms: [], gameCounts: [] }
+        );
+
+
+        setLabels(updatedData.platforms);
+        setDatasets(updatedData.gameCounts);
+
+        let colorsArray: string[] = [];
+        for (let i = 0; i < updatedData.platforms.length; i++) {
+          const letters = '0123456789ABCDEF';
+          let color = '#';
+          for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+          colorsArray.push(color);
+        }
+        setColors(colorsArray);
+      } catch (error) {
+        console.log(error)
+      }
     };
 
     const fetchData2 = async () => {
-      try{
+      try {
 
         // Graph 2
         const response = await GraphService.getPlatformPopularity();
@@ -75,44 +96,44 @@ function Platformes() {
         console.log(data);
         let accum = 0;
         const updatedData = data.reduce(
-      (acc: { platforms: string[]; average_popularity: number[]; }, item: { average_popularity: number; platform_name: any; }) => {
-        if (item.average_popularity < 1) {
-          accum += item.average_popularity;
-          if (!acc.platforms.includes("Others")) {
-            acc.platforms.push("Others");
-            acc.average_popularity.push(accum);
-          } else {
-            acc.average_popularity[acc.platforms.indexOf("Others")] = accum;
+          (acc: { platforms: string[]; average_popularity: number[]; }, item: { average_popularity: number; platform_name: any; }) => {
+            if (item.average_popularity < 1) {
+              accum += item.average_popularity;
+              if (!acc.platforms.includes("Others")) {
+                acc.platforms.push("Others");
+                acc.average_popularity.push(accum);
+              } else {
+                acc.average_popularity[acc.platforms.indexOf("Others")] = accum;
+              }
+            } else {
+              acc.platforms.push(item.platform_name);
+              acc.average_popularity.push(item.average_popularity);
+            }
+            return acc;
+          },
+          { platforms: [], average_popularity: [] }
+        );
+
+        setLabels1(updatedData.platforms);
+        setDatasets1(updatedData.average_popularity);
+
+        let colorsArray: string[] = [];
+        for (let i = 0; i < updatedData.platforms.length; i++) {
+          const letters = '0123456789ABCDEF';
+          let color = '#';
+          for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
           }
-        } else {
-          acc.platforms.push(item.platform_name);
-          acc.average_popularity.push(item.average_popularity);
+          colorsArray.push(color);
         }
-        return acc;
-      },
-      { platforms: [], average_popularity: [] }
-    );
-    
-    setLabels1(updatedData.platforms);
-    setDatasets1(updatedData.average_popularity);
-    
-    let colorsArray: string[] = [];
-    for (let i = 0; i < updatedData.platforms.length; i++) {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+        setColors1(colorsArray);
+      } catch (error) {
+        console.log(error)
       }
-      colorsArray.push(color);
-    }
-    setColors1(colorsArray);
-  }catch(error){
-    console.log(error)
-  }
-    
+
     };
     const fetchData3 = async () => {
-      try{
+      try {
 
         // Graph 3
         const response = await GraphService.getGamesPerPlatforms();
@@ -129,32 +150,32 @@ function Platformes() {
                 acc.count[acc.platforms.indexOf("Others")] = accum;
               }
             } else {
-          acc.platforms.push(item.platform_name);
-          acc.count.push(item.count);
+              acc.platforms.push(item.platform_name);
+              acc.count.push(item.count);
+            }
+            return acc;
+          },
+          { platforms: [], count: [] }
+        );
+
+        setLabels2(updatedData.platforms);
+        setDatasets2(updatedData.count);
+
+        let colorsArray: string[] = [];
+        for (let i = 0; i < updatedData.platforms.length; i++) {
+          const letters = '0123456789ABCDEF';
+          let color = '#';
+          for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+          colorsArray.push(color);
         }
-        return acc;
-      },
-      { platforms: [], count: [] }
-    );
-    
-    setLabels2(updatedData.platforms);
-    setDatasets2(updatedData.count);
-    
-    let colorsArray: string[] = [];
-    for (let i = 0; i < updatedData.platforms.length; i++) {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+        setColors2(colorsArray);
+      } catch (error) {
+        console.log(error)
       }
-      colorsArray.push(color);
-    }
-    setColors2(colorsArray);
-  }catch(error){
-    console.log(error)
-  }
-    
-      };
+
+    };
     fetchData1();
     fetchData2();
     fetchData3();
@@ -164,7 +185,7 @@ function Platformes() {
     setOpenPopUp(true);
   };
   const data = {
-    
+
     labels: labels,
     datasets: [
       {
@@ -177,7 +198,7 @@ function Platformes() {
     ],
   };
   const data1 = {
-    
+
     labels: labels1,
     datasets: [
       {
@@ -220,62 +241,62 @@ function Platformes() {
 
   return (
     <div className="min-h-screen flex flex-col">
-        <HeaderMain />
-        <main className="flex-1 bg-teal-50 flex flex-col items-center justify-center p-8 ">
-            <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono mb-10">
-                Visualisation des données de platformes jouées
-            </h2>
-            <div className="flex flex-wrap justify-center gap-12 mt-10">
-                <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
-                    <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-                      Tendance de la première sortie des jeux par plateforme
-                    </h3>
-                    <Bar data={data} className=""/>
-                    <button 
-                      onClick={() => handleOpenPopUp("Graphique 3", graphDesc1)} 
-                      className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
-                      Voir Détails
-                    </button>
-                </div>
-                <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
-                    <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-                        La popularité des plateformes de jeu
-                    </h3>
-                    <Line data={data1}/>
-                    <button 
-                      onClick={() => handleOpenPopUp("Graphique 3", graphDesc2)} 
-                      className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
-                      Voir Détails
-                    </button>
-                </div>
-                <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
-                    <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-                        Nombre de jeux par plateforme
-                    </h3>
-                    <Pie data={data2} />
-                    <button 
-                      onClick={() => handleOpenPopUp("Graphique 3", graphDesc3)} 
-                      className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
-                      Voir Détails
-                    </button>
-                </div>
-            </div>
-        </main>
-        <Footer />
-
-        {openPopUp && (
-          <div className="fixed bg-black bg-opacity-50 w-full h-full flex items-center justify-center">
-            <div className="bg-white rounded-lg shadow-lg max-w-2xl p-20 px-10">  
-              <h2 className="text-xl font-bold text-teal-700 mb-4 font-mono">
-                {popUpContent.title}
-              </h2> 
-              <p className="mb-6 text-gray-700">{popUpContent.description}</p>
-              <button onClick={() => setOpenPopUp(false)} className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono">
-                Fermer
-              </button>
-            </div>
+      <HeaderMain />
+      <main className="flex-1 bg-teal-50 flex flex-col items-center justify-center p-8 ">
+        <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono mb-10">
+          Visualisation des données de platformes jouées
+        </h2>
+        <div className="flex flex-wrap justify-center gap-12 mt-10">
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
+            <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
+              Tendance de la première sortie des jeux par plateforme
+            </h3>
+            <Bar data={data} className="" />
+            <button
+              onClick={() => handleOpenPopUp("Graphique 3", graphDesc1)}
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
+              Voir Détails
+            </button>
           </div>
-        )}  
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
+            <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
+              La popularité des plateformes de jeu
+            </h3>
+            <Line data={data1} />
+            <button
+              onClick={() => handleOpenPopUp("Graphique 3", graphDesc2)}
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
+              Voir Détails
+            </button>
+          </div>
+          <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
+            <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
+              Nombre de jeux par plateforme
+            </h3>
+            <Pie data={data2} />
+            <button
+              onClick={() => handleOpenPopUp("Graphique 3", graphDesc3)}
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
+              Voir Détails
+            </button>
+          </div>
+        </div>
+      </main>
+      <Footer />
+
+      {openPopUp && (
+        <div className="fixed bg-black bg-opacity-50 w-full h-full flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow-lg max-w-2xl p-20 px-10">
+            <h2 className="text-xl font-bold text-teal-700 mb-4 font-mono">
+              {popUpContent.title}
+            </h2>
+            <p className="mb-6 text-gray-700">{popUpContent.description}</p>
+            <button onClick={() => setOpenPopUp(false)} className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono">
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

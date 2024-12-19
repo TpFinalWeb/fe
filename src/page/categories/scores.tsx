@@ -5,6 +5,8 @@ import Chart from "chart.js/auto";
 import { Line, Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { GraphService } from "../../axios/service/graph.service.ts";
+import { useNavigate } from "react-router";
+import { getToken } from "../../axios/http-common.ts";
 
 Chart.register(CategoryScale);
 
@@ -25,7 +27,25 @@ function Scores() {
   const [labelsGOY, setlabelsGOY] = useState<string[]>([]);
   const [datasetGOY, setDatasetGOY] = useState([]);
 
+  const [isConnected, setIsConnected] = useState(false);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
+
+    const verifyConnection = async () => {
+      const token = getToken();
+      if (token == null) {
+        setIsConnected(false);
+        navigate("/login");
+      }
+      else {
+        setIsConnected(true);
+      }
+    }
+
+
+    verifyConnection();
     const fetchData = async () => {
       try {
         const data = await GraphService.getAllPlatforms();
@@ -53,7 +73,8 @@ function Scores() {
         let accum = 0;
         const updatedData = data.reduce(
           (acc: { platforms: string[]; top_score: number[]; }, item: {
-            release_year: any; top_score: number; top_game: any; }) => {
+            release_year: any; top_score: number; top_game: any;
+          }) => {
             if (item.top_score < 1) {
               accum += item.top_score;
               if (!acc.platforms.includes("Others")) {
@@ -217,11 +238,12 @@ function Scores() {
       x: {
         ticks: {
           callback: function (value: any): string {
-            const label = (this as any).getLabelForValue(value); 
-            return label.length > 10 ? label.substring(0, 10) + '...' : label; 
+            const label = (this as any).getLabelForValue(value);
+            return label.length > 10 ? label.substring(0, 10) + '...' : label;
           },
         },
-      }}
+      }
+    }
   }
 
   const descGraph1 = `Ce graphique montre la qualité des jeux pour une plateforme spécifique au fil du temps.
@@ -254,14 +276,14 @@ function Scores() {
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">La plateforme choisie:</label>
-              <select 
-                id="platform-select" 
-                value={curroption} 
+              <select
+                id="platform-select"
+                value={curroption}
                 onChange={async (e) => {
                   const selectedOption = e.target.value;
                   setcurroption(selectedOption);
                   handlePlatformOptions(selectedOption);
-                }} 
+                }}
                 className="p-2 border rounded"
               >
                 <option value="">--Veuillez choisir une option--</option>
@@ -273,8 +295,8 @@ function Scores() {
               </select>
             </div>
             <Bar data={dataPlatform} options={options} />
-            <button 
-              onClick={() => handleOpenPopUp("Graphique 1", descGraph1)} 
+            <button
+              onClick={() => handleOpenPopUp("Graphique 1", descGraph1)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
@@ -287,14 +309,14 @@ function Scores() {
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="genre-select" className="mr-2">Le genre choisi:</label>
-              <select 
-                id="genre-select" 
-                value={curroptionPlat} 
+              <select
+                id="genre-select"
+                value={curroptionPlat}
                 onChange={async (e) => {
                   const selectedOption = e.target.value;
                   setcurroptionPlat(selectedOption);
                   handleOptionGenre(selectedOption);
-                }} 
+                }}
                 className="p-2 border rounded"
               >
                 <option value="">--Veuillez choisir une option--</option>
@@ -306,8 +328,8 @@ function Scores() {
               </select>
             </div>
             <Bar data={dataGenre} options={optionsGenre} />
-            <button 
-              onClick={() => handleOpenPopUp("Graphique 2", descGraph2)} 
+            <button
+              onClick={() => handleOpenPopUp("Graphique 2", descGraph2)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
@@ -317,9 +339,9 @@ function Scores() {
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
               Les meilleurs jeux de chaque année
             </h3>
-            <Line data={dataGOY} options={optionGoy}/>
-            <button 
-              onClick={() => handleOpenPopUp("Graphique 3", descGraph3)} 
+            <Line data={dataGOY} options={optionGoy} />
+            <button
+              onClick={() => handleOpenPopUp("Graphique 3", descGraph3)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails

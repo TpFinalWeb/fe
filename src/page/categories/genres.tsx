@@ -5,6 +5,8 @@ import Chart from "chart.js/auto";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { GraphService } from "../../axios/service/graph.service.ts";
+import { useNavigate } from "react-router";
+import { getToken } from "../../axios/http-common.ts";
 
 Chart.register(CategoryScale);
 
@@ -23,7 +25,10 @@ function Genres() {
   const [dataset2, setDataset2] = useState<number[]>([]);
   const [color3, setColors3] = useState<string[]>([]);
 
-  
+  const [isConnected, setIsConnected] = useState(false);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -37,34 +42,47 @@ function Genres() {
       }
     };
 
-     const fetchGenres2 = async () => {
-      try{
+    const verifyConnection = async () => {
+      const token = getToken();
+      if (token == null) {
+        setIsConnected(false);
+        navigate("/login");
+      }
+      else {
+        setIsConnected(true);
+      }
+    }
+
+    verifyConnection();
+
+    const fetchGenres2 = async () => {
+      try {
         const response = await GraphService.getGenrePopularity();
         const data = response.aggregation;
         console.log(data);
         let accum = 0;
         const updatedData = data.reduce(
           (acc: { platforms: string[]; count: number[]; }, item: { count: number; genre_name: any; }) => {
-          if (item.count < 1) {
-            accum += item.count;
-            if (!acc.platforms.includes("Others")) {
-            acc.platforms.push("Others");
-            acc.count.push(accum);
+            if (item.count < 1) {
+              accum += item.count;
+              if (!acc.platforms.includes("Others")) {
+                acc.platforms.push("Others");
+                acc.count.push(accum);
+              } else {
+                acc.count[acc.platforms.indexOf("Others")] = accum;
+              }
             } else {
-            acc.count[acc.platforms.indexOf("Others")] = accum;
+              acc.platforms.push(item.genre_name);
+              acc.count.push(item.count);
             }
-          } else {
-            acc.platforms.push(item.genre_name);
-            acc.count.push(item.count);
-          }
-          return acc;
+            return acc;
           },
           { platforms: [], count: [] }
         );
-    
+
         setlabelsPop(updatedData.platforms);
         setdatasetpop(updatedData.count);
-        
+
         let colorsArray: string[] = [];
         for (let i = 0; i < updatedData.platforms.length; i++) {
           const letters = '0123456789ABCDEF';
@@ -81,21 +99,21 @@ function Genres() {
       }
     };
     const fetchGenres3 = async () => {
-          try{
-            const response = await GraphService.getNumOfGameOfEachGenre();
-            const data = response.aggregation;
-            let accum = 0;
-            const updatedData = data.reduce(
-              (acc: { platforms: string[]; count: number[]; }, item: { count: number; genre_name: any; }) => {
-                if (item.count < 700) {
-                  accum += item.count;
-                  if (!acc.platforms.includes("Others")) {
-                    acc.platforms.push("Others");
-                    acc.count.push(accum);
-                  } else {
-                    acc.count[acc.platforms.indexOf("Others")] = accum;
-                  }
-                } else {
+      try {
+        const response = await GraphService.getNumOfGameOfEachGenre();
+        const data = response.aggregation;
+        let accum = 0;
+        const updatedData = data.reduce(
+          (acc: { platforms: string[]; count: number[]; }, item: { count: number; genre_name: any; }) => {
+            if (item.count < 700) {
+              accum += item.count;
+              if (!acc.platforms.includes("Others")) {
+                acc.platforms.push("Others");
+                acc.count.push(accum);
+              } else {
+                acc.count[acc.platforms.indexOf("Others")] = accum;
+              }
+            } else {
               acc.platforms.push(item.genre_name);
               acc.count.push(item.count);
             }
@@ -103,10 +121,10 @@ function Genres() {
           },
           { platforms: [], count: [] }
         );
-        
+
         setLabels2(updatedData.platforms);
         setDataset2(updatedData.count);
-        
+
         let colorsArray: string[] = [];
         for (let i = 0; i < updatedData.platforms.length; i++) {
           const letters = '0123456789ABCDEF';
@@ -117,7 +135,7 @@ function Genres() {
           colorsArray.push(color);
         }
         setColors3(colorsArray);
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     }
@@ -127,7 +145,7 @@ function Genres() {
   }, []);
 
   async function handleOption(params: string) {
-      try {
+    try {
       const data = await GraphService.getGenreYearlyPopularity(params);
       setDataset(data.aggregation.map((game: any) => game.average_vote));
       setLabels(data.aggregation.map((game: any) => game.release_year));
@@ -143,7 +161,7 @@ function Genres() {
       setColors2(colorsArray);
     }
     catch (error) {
-      
+
     }
   }
   const handleOpenPopUp = (title: string, description: string) => {
@@ -152,7 +170,7 @@ function Genres() {
   };
 
   const data1 = {
-    
+
     labels: labelsPop,
     datasets: [
       {
@@ -166,7 +184,7 @@ function Genres() {
   };
 
   const data2 = {
-    
+
     labels: labels,
     datasets: [
       {
@@ -180,7 +198,7 @@ function Genres() {
   };
 
   const data3 = {
-    
+
     labels: labels2,
     datasets: [
       {
@@ -216,7 +234,7 @@ function Genres() {
 
   const graphDesc2 = `Ce graphique montre l'évolution du nombre moyen de votes des genres de jeux spécifique au fil du temps. 
   Il met en évidence les genres les plus populaires et les plus votées au fil des années, permettant de voir comment les préférences des joueurs ont changé au cours du temps.`
-  
+
   const graphDesc3 = `Ce graphique représente la répartition des jeux par genre sous forme de diagramme circulaire. Il met en évidence le genre qui détient le plus grand nombre de jeux, 
   permettant ainsi d'identifier quels types de jeux sont les plus développés et disponibles.`
 
@@ -230,11 +248,11 @@ function Genres() {
         <div className="flex flex-wrap justify-center gap-12 mt-10">
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-            Graphique de Popularité des Genres
+              Graphique de Popularité des Genres
             </h3>
-             <Line data={data1}/>
-            <button 
-              onClick={() => handleOpenPopUp("Graphique 1", graphDesc1)} 
+            <Line data={data1} />
+            <button
+              onClick={() => handleOpenPopUp("Graphique 1", graphDesc1)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
@@ -246,14 +264,14 @@ function Genres() {
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">Le genre choisi:</label>
-              <select 
-                id="platform-select" 
-                value={curroption} 
+              <select
+                id="platform-select"
+                value={curroption}
                 onChange={async (e) => {
                   const selectedOption = e.target.value;
                   setcurroption(selectedOption);
                   handleOption(selectedOption);
-                }} 
+                }}
                 className="p-2 border rounded"
               >
                 <option value="">--Veuillez choisir une option--</option>
@@ -265,8 +283,8 @@ function Genres() {
               </select>
             </div>
             <Bar data={data2} options={options} />
-            <button 
-              onClick={() => handleOpenPopUp("Graphique 2", graphDesc2)} 
+            <button
+              onClick={() => handleOpenPopUp("Graphique 2", graphDesc2)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
@@ -274,11 +292,11 @@ function Genres() {
           </div>
           <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-            Répartition des jeux par genre
+              Répartition des jeux par genre
             </h3>
             <Pie data={data3} />
-            <button 
-              onClick={() => handleOpenPopUp("Graphique 3", graphDesc3)} 
+            <button
+              onClick={() => handleOpenPopUp("Graphique 3", graphDesc3)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
@@ -305,7 +323,7 @@ function Genres() {
         </div>
       )}
     </div>
-  );  
+  );
 }
 
 export default Genres;
