@@ -239,7 +239,7 @@ function Platformes() {
                 </div>
                 <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
                     <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-                        Graphique 2 : Platforms Popularity
+                        La popularité des plateformes de jeu
                     </h3>
                     <Line data={data1}/>
                     <button 
@@ -250,7 +250,7 @@ function Platformes() {
                 </div>
                 <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
                     <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-                    Graphique 3 :Games Per Platforms
+                        Nombre de jeux par plateforme
                     </h3>
                     <Pie data={data2} />
                     <button 
