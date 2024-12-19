@@ -8,6 +8,7 @@ import Games from "./page/categories/games.tsx";
 import Genres from "./page/categories/genres.tsx";
 import Platformes from "./page/categories/platformes.tsx";
 import Scores from "./page/categories/scores.tsx";
+import AdminBoard from "./page/admin/adminBoard.tsx";
 
 
 
@@ -24,8 +25,8 @@ function App() {
             <Route path="/genres" element={<Genres />} />
             <Route path="/platformes" element={<Platformes />} />
             <Route path="/scores" element={<Scores />} />
-            <Route path="/unauthorized" element={<div>Error 401: You are not authorized to view this page</div>} />
-            <Route path="*" element={<div>Error 404: Page not found</div>} />
+
+            <Route path="/admin" element={<AdminBoard />}/>
           </Routes>
         </BrowserRouter>
       </header>
