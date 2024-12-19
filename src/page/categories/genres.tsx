@@ -156,7 +156,7 @@ function Genres() {
     labels: labelsPop,
     datasets: [
       {
-        label: "Genre Popularity",
+        label: "Popularité des genres selon le nombre de votes",
         data: datasetpop,
         backgroundColor: colors1,
         borderColor: ["rgba(0,0,0,1)"],
@@ -170,7 +170,7 @@ function Genres() {
     labels: labels,
     datasets: [
       {
-        label: "Genre Popularity By Year",
+        label: "Popularité des genres selon la moyenne de votes par années",
         data: dataset,
         backgroundColor: colors2,
         borderColor: ["rgba(0,0,0,1)"],
@@ -184,7 +184,7 @@ function Genres() {
     labels: labels2,
     datasets: [
       {
-        label: "Genre Game Distribution",
+        label: "Le genre qui detient le plus de jeux",
         data: dataset2,
         backgroundColor: color3,
         borderColor: ["rgba(0,0,0,1)"],
@@ -209,21 +209,32 @@ function Genres() {
     },
   };
 
+  const graphDesc1 = `Ce graphique de popularité des genres, présente la popularité des genres de 
+  jeux vidéo au fil des années sous forme de graphique linéaire, 
+  en fonction du somme de nombre de votes des personnes. 
+  Il permet de visualiser les tendances de la popularité des différents genres dans l'industrie du jeu.`
+
+  const graphDesc2 = `Ce graphique montre l'évolution du nombre moyen de votes des genres de jeux spécifique au fil du temps. 
+  Il met en évidence les genres les plus populaires et les plus votées au fil des années, permettant de voir comment les préférences des joueurs ont changé au cours du temps.`
+  
+  const graphDesc3 = `Ce graphique représente la répartition des jeux par genre sous forme de diagramme circulaire. Il met en évidence le genre qui détient le plus grand nombre de jeux, 
+  permettant ainsi d'identifier quels types de jeux sont les plus développés et disponibles.`
+
   return (
     <div className="min-h-screen flex flex-col">
       <HeaderMain />
       <main className="flex-1 bg-teal-50 flex flex-col items-center justify-center p-8">
         <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono">
-          Genre Popularity Over the Years
+          Visualisation des données du genre de jeu
         </h2>
         <div className="flex flex-wrap justify-center gap-12 mt-10">
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Genre Popularity Chart
+            Graphique de Popularité des Genres
             </h3>
              <Line data={data1}/>
             <button 
-              onClick={() => handleOpenPopUp("Graphique 1", "")} 
+              onClick={() => handleOpenPopUp("Graphique 1", graphDesc1)} 
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
@@ -231,7 +242,7 @@ function Genres() {
           </div>
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 2: Top 10 Games of a Genre
+              Les genres les plus votes au fil des années.
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
@@ -255,7 +266,7 @@ function Genres() {
             </div>
             <Bar data={data2} options={options} />
             <button 
-              onClick={() => handleOpenPopUp("Graphique 2", "")} 
+              onClick={() => handleOpenPopUp("Graphique 2", graphDesc2)} 
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
@@ -263,11 +274,11 @@ function Genres() {
           </div>
           <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-            Graphique 3 : Games Per Platforms
+            Répartition des jeux par genre
             </h3>
             <Pie data={data3} />
             <button 
-              onClick={() => handleOpenPopUp("Graphique 2", "")} 
+              onClick={() => handleOpenPopUp("Graphique 3", graphDesc3)} 
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails

@@ -251,7 +251,7 @@ function Platformes() {
         <HeaderMain />
         <main className="flex-1 bg-teal-50 flex flex-col items-center justify-center p-8 ">
             <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono mb-10">
-                Visualisation des Données de platformes
+                Visualisation des données de platformes jouées
             </h2>
             <div className="flex flex-wrap justify-center gap-12 mt-10">
                 <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer" onClick={() => handleOpenPopUp("Grpahique 1",descGraph1)}>

@@ -52,7 +52,8 @@ function Scores() {
         const data = response.aggregation;
         let accum = 0;
         const updatedData = data.reduce(
-          (acc: { platforms: string[]; top_score: number[]; }, item: { top_score: number; top_game: any; }) => {
+          (acc: { platforms: string[]; top_score: number[]; }, item: {
+            release_year: any; top_score: number; top_game: any; }) => {
             if (item.top_score < 1) {
               accum += item.top_score;
               if (!acc.platforms.includes("Others")) {
@@ -62,7 +63,7 @@ function Scores() {
                 acc.top_score[acc.platforms.indexOf("Others")] = accum;
               }
             } else {
-              acc.platforms.push(item.top_game);
+              acc.platforms.push(`${item.top_game} (${item.release_year})`);
               acc.top_score.push(item.top_score);
             }
             return acc;
@@ -236,7 +237,8 @@ function Scores() {
     <div className="min-h-screen flex flex-col">
       <HeaderMain />
       <main className="flex-1 bg-teal-50 flex flex-col items-center justify-center p-8">
-        <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono">Graphique 1</h2>
+        <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono">
+          Visualisation des données de scores</h2>
         <div className="flex flex-wrap justify-center gap-12 mt-10">
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
