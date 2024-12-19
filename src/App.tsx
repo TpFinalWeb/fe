@@ -8,6 +8,7 @@ import Games from "./page/categories/games.tsx";
 import Genres from "./page/categories/genres.tsx";
 import Platformes from "./page/categories/platformes.tsx";
 import Scores from "./page/categories/scores.tsx";
+import AdminBoard from "./page/admin/adminBoard.tsx";
 
 
 
@@ -24,6 +25,8 @@ function App() {
             <Route path="/genres" element={<Genres />} />
             <Route path="/platformes" element={<Platformes />} />
             <Route path="/scores" element={<Scores />} />
+
+            <Route path="/admin" element={<AdminBoard />}/>
           </Routes>
         </BrowserRouter>
       </header>
