@@ -181,7 +181,7 @@ function Platformes() {
     labels: labels1,
     datasets: [
       {
-        label: "Platforms Popularity",
+        label: "Popularité des plateformes de jeu",
         data: datasets1,
         backgroundColor: colors1,
         borderColor: ["rgba(0,0,0,1)"],
@@ -193,7 +193,7 @@ function Platformes() {
     labels: labels2,
     datasets: [
       {
-        label: "Games per Platforms",
+        label: "Nombre de jeu par plateforme",
         data: datasets2,
         backgroundColor: colors2,
         borderColor: ["rgba(0,0,0,1)"],
