@@ -256,7 +256,7 @@ function Genres() {
                 }} 
                 className="p-2 border rounded"
               >
-                <option value="">--Please choose an option--</option>
+                <option value="">--Veuillez choisir une option--</option>
                 {genreOptions.map((option: string) => (
                   <option key={option} value={option}>
                     {option}
