@@ -5,6 +5,9 @@ import Chart from "chart.js/auto";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { GraphService } from "../../axios/service/graph.service.ts";
+import { UserService } from "../../axios/service/user.service.ts";
+import { useNavigate } from "react-router";
+import { getToken } from "../../axios/http-common.ts";
 Chart.register(CategoryScale);
 
 function Games() {
@@ -24,6 +27,11 @@ function Games() {
   const [values, setValues] = useState([0, 12]); // Values for min and max
   const [datasetGenre, setdatasetGenre] = useState([]);
   const [labels2, setLabels2] = useState<string[]>([]);
+  
+  const [isConnected, setIsConnected] = useState(false);
+
+  const navigate = useNavigate();
+
   const [months, setMonths] = useState(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]);
   const handleOpenPopUp = (title: string, description: string) => {
     setPopUpContent({ title, description });
@@ -31,6 +39,17 @@ function Games() {
   };
 
   useEffect(() => {
+    const verifyConnection = async () => {
+      const token = getToken();
+      if (token == null) {
+        setIsConnected(false);
+        navigate("/login");
+      }
+      else {
+        setIsConnected(true);
+      }
+    }
+
     const fetchData = async () => {
       try{
 
@@ -43,7 +62,6 @@ function Games() {
     };
     const fetchdataGenre = async () => {
       try{
-
         const data = await GraphService.getAllGenres();
         const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
         setgenreOption(list);
@@ -52,13 +70,16 @@ function Games() {
       }
       
     };
+    verifyConnection();
+    if(isConnected){
     try{
       fetchData();
       fetchdataGenre();
     }catch(error){
       console.error("Failed to fetch platforms:", error);
     }
-  }, []);
+  }
+}, [isConnected]);
 
   async function handleOption(params: string) {
     try {
