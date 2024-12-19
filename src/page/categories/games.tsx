@@ -187,7 +187,7 @@ function Games() {
     labels: labels2,
     datasets: [
       {
-        label: "Quel plateforme de jeu le plus populaire entre les mois",
+        label: "Quelle plateforme de jeu le plus populaire entre les mois",
         data: datasetGenre,
         backgroundColor: colors2,
         borderColor: ["rgba(0,0,0,1)"],
