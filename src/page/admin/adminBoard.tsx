@@ -93,9 +93,9 @@ export default function AdminBoard() {
         }
     }
     return (
-        <div className="font-mono">
+        <div className="font-mono bg-teal-50 min-h-screen">
             <Header />
-            <div className="text-center">
+            <div className="text-center bg-teal-50">
                 <h1 className="text-4xl font-bold text-center mt-4">Admin Board</h1>
                 <h2 className="text-2xl mt-3">search for the game to delete / modify</h2>
                 <h3 className="text-l mt-1">write all to view all</h3>
@@ -106,23 +106,23 @@ export default function AdminBoard() {
                   speedMultiplier={1}
                 /> */}
                 </div>
-                <div className="flex justify-center my-4">
+                <div className="flex justify-center my-4 ">
 
 
-                    <div className="w-1/2 flex flex-row items-center justify-center">
+                    <div className="w-1/2 flex flex-row items-center justify-center bg-teal-50">
                         <input
                             type="text"
                             placeholder="Search..."
-                            className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                            className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 "
                             value={searchGame}
-                            onChange={handleSearchChange}
+                            onChange={handleSearchChange}   
                         />
                     </div>
                     <div>
 
                     </div>
 
-                    <div className="absolute bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 mt-16 max-h-[29rem] overflow-y-auto">
+                    <div className="absolute bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 mt-16 max-h-[29rem] overflow-y-auto bg-teal-50">
                         <ul>
                             {gamesSearched && gamesSearched.length > 0 && (
                                 gamesSearched.map((game, index) => (
@@ -130,7 +130,7 @@ export default function AdminBoard() {
                                         onClick={() => openDialog(game)}>
                                         <img src={game.sample_cover?.image || noImage} alt="game_cover" className="w-60 h-40 mt-2 rounded-2xl max-h-60 mr-auto ml-5" />
 
-                                        <h1 className="text-2xl text-decoration-line: underline w-2/3">{game.name}</h1>
+                                        <h1 className="text-2xl text-decoration-line: underline w-2/3 ">{game.name}</h1>
                                     </li>
                                 ))
                             )}
@@ -140,11 +140,11 @@ export default function AdminBoard() {
 
             </div>
 
-            <div className="fixed bottom-0 w-full">
+            <div className="fixed bottom-0 w-full bg-teal-50">
                 <Footer />
             </div>
 
-            <dialog id="dialog" className="modal rounded-2xl h-2/3 w-1/2" onClick={(e) => { if (e.target === e.currentTarget) closeDialog(); }}>
+            <dialog id="dialog" className="modal rounded-2xl h-2/3 w-1/2 " onClick={(e) => { if (e.target === e.currentTarget) closeDialog(); }}>
                 <div className="relative modal-box h-full pt-4">
                     <div className="fixed ml-5">
                         <button className="px-4 py-2 bg-teal-600 text-white cursor-pointer rounded hover:bg-teal-700" onClick={() => { closeDialog() }}>Exit</button>
@@ -168,7 +168,7 @@ export default function AdminBoard() {
                     <div className="grid grid-cols-2 mt-8">
                         <div className="flex flex-row justify-center">
                             <p className="mr-3 ml-10 font-bold italic text-decoration-line: underline">Available on: </p>
-                            <div className="flex flex-col ml-5">
+                            <div className="flex flex-col ml-5 ">
                                 {
                                     currentGame?.platforms.map((platform, index) => {
                                         return (
@@ -181,7 +181,7 @@ export default function AdminBoard() {
                             </div>
                         </div>
 
-                        <div className="flex flex-row justify-center">
+                        <div className="flex flex-row justify-center ">
                             <p className="mx-3 font-bold italic text-decoration-line: underline">Genres: </p>
                             <div className="flex flex-col ml-5">
                                 {
