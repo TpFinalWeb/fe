@@ -142,7 +142,7 @@ function Scores() {
     labels: labels,
     datasets: [
       {
-        label: "Top 10 Games of a Platform",
+        label: "La qualité des jeux par plateforme au fil du temps",
         data: dataset,
         backgroundColor: colors,
         borderColor: ["rgba(0,0,0,1)"],
@@ -155,7 +155,7 @@ function Scores() {
     labels: labelsGenre,
     datasets: [
       {
-        label: "Top 10 Games of a Genre",
+        label: "La qualité des jeux par genre au fil du temps",
         data: datasetGenre,
         backgroundColor: colors1,
         borderColor: ["rgba(0,0,0,1)"],
@@ -168,7 +168,7 @@ function Scores() {
     labels: labelsGOY,
     datasets: [
       {
-        label: "Get best game of each year",
+        label: "Les meilleurs jeux de chaque année",
         data: datasetGOY,
         backgroundColor: colorsGOY,
         borderColor: ["rgba(0,0,0,1)"],
