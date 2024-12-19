@@ -224,9 +224,17 @@ function Scores() {
       }}
   }
 
-  const descGraph1 = `Description for Graph 1`;
-  const descGraph2 = `Description for Graph 2`;
-  const descGraph3 = `Description for Graph 3`;
+  const descGraph1 = `Ce graphique montre la qualité des jeux pour une plateforme spécifique au fil du temps.
+  Chaque barre représente la moyenne des scores des jeux de cette plateforme pour une année donnée.
+  Vous pouvez sélectionner une plateforme dans le menu déroulant pour voir comment les scores des jeux ont évolué au fil des années.
+  Ce graph vous permet de voir si la qualité des jeux pour une plateforme spécifique a augmenté ou diminué au fil du temps.`;
+  const descGraph2 = `Ce graphique montre la qualité des jeux pour un genre spécifique au fil du temps.
+  Chaque barre représente la moyenne des scores des jeux de cett genre pour une année donnée.
+  Vous pouvez sélectionner un genre dans le menu déroulant pour voir comment les scores des jeux ont évolué au fil des années.
+  Ce graph vous permet de voir si la qualité des jeux pour un genre spécifique a augmenté ou diminué au fil du temps.`;
+  const descGraph3 = `Ce graphique montre les meilleurs jeux de chaque année. Chaque point représente le score du meilleur jeu de l'année.
+  Vous pouvez voir le nom du jeu et l'année en survolant le point.
+  Ce graph vous permet de voir si la qualité des jeux en général a augmenté ou diminué au fil du temps.`;
 
   const handleOpenPopUp = (title: string, description: string) => {
     setPopUpContent({ title, description });
@@ -242,10 +250,10 @@ function Scores() {
         <div className="flex flex-wrap justify-center gap-12 mt-10">
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 1: 
+              Graphique 1: La qualité des jeux par plateforme au fil du temps
             </h3>
             <div className="text-center mb-4">
-              <label htmlFor="platform-select" className="mr-2">Select Platform:</label>
+              <label htmlFor="platform-select" className="mr-2">La plateforme choisie:</label>
               <select 
                 id="platform-select" 
                 value={curroption} 
@@ -256,7 +264,7 @@ function Scores() {
                 }} 
                 className="p-2 border rounded"
               >
-                <option value="">--Please choose an option--</option>
+                <option value="">--Veuillez choisir une option--</option>
                 {platformOptions.map((option: string) => (
                   <option key={option} value={option}>
                     {option}
@@ -275,10 +283,10 @@ function Scores() {
 
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 2: Top 10 Games of a Genre
+              Graphique 2:  La qualité des jeux par genre au fil du temps
             </h3>
             <div className="text-center mb-4">
-              <label htmlFor="genre-select" className="mr-2">Select Genre:</label>
+              <label htmlFor="genre-select" className="mr-2">Le genre choisi:</label>
               <select 
                 id="genre-select" 
                 value={curroptionPlat} 
@@ -289,7 +297,7 @@ function Scores() {
                 }} 
                 className="p-2 border rounded"
               >
-                <option value="">--Please choose an option--</option>
+                <option value="">--Veuillez choisir une option--</option>
                 {genreOption.map((option: string) => (
                   <option key={option} value={option}>
                     {option}
@@ -307,7 +315,7 @@ function Scores() {
           </div>
           <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 3 : Games Per Platforms
+              Graphique 3 : Les meilleurs jeux de chaque année
             </h3>
             <Line data={dataGOY} options={optionGoy}/>
             <button 
@@ -332,7 +340,7 @@ function Scores() {
               onClick={() => setOpenPopUp(false)}
               className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
             >
-              Close
+              Fermez
             </button>
           </div>
         </div>
