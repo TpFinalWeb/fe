@@ -340,7 +340,7 @@ function Scores() {
               onClick={() => setOpenPopUp(false)}
               className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
             >
-              Fermez
+              Fermer
             </button>
           </div>
         </div>
