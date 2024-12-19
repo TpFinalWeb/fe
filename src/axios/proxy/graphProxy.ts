@@ -128,7 +128,9 @@ export default class GraphProxy {
             const result = await apiClient.get("/aggregations/getAllPlatforms");
             return result.data;
         } catch (error) {
-            return error.response.data.message;
+            console.log(error.status);	
+            //return error.response.data.message;
+            return { success: false, status: error.status, message: error.message };
         }
     }
 }

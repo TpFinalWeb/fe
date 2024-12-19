@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { UserService } from '../../axios/service/user.service.ts';
 import Footer from '../../components/footer.tsx';
 import Header from '../../components/header.tsx';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -24,8 +26,18 @@ const handleSubmit = async (e) => {
       setError('Le format de l\'email est invalide');
       return;
     }
+
     setError('');
-    await UserService.loginUser(email, password);
+    try{
+      const login = await UserService.loginUser(email, password);
+      if(login === 200){
+        navigate('/games');
+      }else{
+        setError('Email ou mot de passe incorrect');
+      }
+    }catch(err){
+      console.log(err);
+    }
   };
 
   return (

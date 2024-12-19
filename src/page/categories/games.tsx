@@ -5,6 +5,9 @@ import Chart from "chart.js/auto";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import { GraphService } from "../../axios/service/graph.service.ts";
+import { UserService } from "../../axios/service/user.service.ts";
+import { useNavigate } from "react-router";
+import { getToken } from "../../axios/http-common.ts";
 Chart.register(CategoryScale);
 
 function Games() {
@@ -18,12 +21,17 @@ function Games() {
   const [labels, setLabels] = useState<string[]>([]);
   const [dataset1, setDataset1] = useState([]);
   const [labels1, setLabels1] = useState<string[]>([]);
-  const [colors, setColors] = useState([]);
+  const [colors, setColors] = useState<string[]>([]);
   const [colors1, setColors1] = useState<string[]>([]);
   const [colors2, setColors2] = useState<string[]>([]);
   const [values, setValues] = useState([0, 12]); // Values for min and max
   const [datasetGenre, setdatasetGenre] = useState([]);
   const [labels2, setLabels2] = useState<string[]>([]);
+  
+  const [isConnected, setIsConnected] = useState(false);
+
+  const navigate = useNavigate();
+
   const [months, setMonths] = useState(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]);
   const handleOpenPopUp = (title: string, description: string) => {
     setPopUpContent({ title, description });
@@ -31,6 +39,17 @@ function Games() {
   };
 
   useEffect(() => {
+    const verifyConnection = async () => {
+      const token = getToken();
+      if (token == null) {
+        setIsConnected(false);
+        navigate("/login");
+      }
+      else {
+        setIsConnected(true);
+      }
+    }
+
     const fetchData = async () => {
       const data = await GraphService.getAllPlatforms();
       const list = data.aggregation.filter((platform: any) => platform.count > 100).map((platform: any) => platform.platform_name);
@@ -38,12 +57,17 @@ function Games() {
     };
     const fetchdataGenre = async () => {
       const data = await GraphService.getAllGenres();
+      console.log(data)
       const list = data.aggregation.filter((platform: any) => platform.count > 2000).map((platform: any) => platform.genre_name);
       setgenreOption(list);
     };
-    fetchData();
-    fetchdataGenre();
-  }, []);
+
+    verifyConnection();
+    if(isConnected){
+      fetchData();
+      fetchdataGenre();
+    }
+  }, [isConnected]);
 
   async function handleOption(params: string) {
     try {
