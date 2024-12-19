@@ -9,7 +9,7 @@ Chart.register(CategoryScale);
 
 export default function LineChart(){
   const [platforms, setPlatforms] = useState([]);
-  const [data, setData] = useState<{labels, datasets}>();
+  const [data, setData] = useState<{labels: any, datasets: any}>();
 
   const fetchPlateformData = async () => {
     const plateformData = await AggregationService.getPlatformsWhereGamesReleaseFirst();
