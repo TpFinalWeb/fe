@@ -253,7 +253,7 @@ function Platformes() {
             </h3>
             <Bar data={data} className="" />
             <button
-              onClick={() => handleOpenPopUp("Graphique 3", graphDesc1)}
+              onClick={() => handleOpenPopUp("Graphique 1", graphDesc1)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
               Voir Détails
             </button>
@@ -264,7 +264,7 @@ function Platformes() {
             </h3>
             <Line data={data1} />
             <button
-              onClick={() => handleOpenPopUp("Graphique 3", graphDesc2)}
+              onClick={() => handleOpenPopUp("Graphique 2", graphDesc2)}
               className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105">
               Voir Détails
             </button>
