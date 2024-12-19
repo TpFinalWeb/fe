@@ -258,7 +258,7 @@ function Games() {
             Top 10 des jeux d'une plateforme
             </h3>
             <div className="text-center mb-4">
-              <label htmlFor="platform-select" className="mr-2">Select Platform:</label>
+              <label htmlFor="platform-select" className="mr-2">La platforme choisie:</label>
               <select 
                 id="platform-select" 
                 value={curroption} 
@@ -291,7 +291,7 @@ function Games() {
               Top 10 des jeux d'un genre
             </h3>
             <div className="text-center mb-4">
-              <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
+              <label htmlFor="platform-select" className="mr-2">Le genre choisi:</label>
               <select 
                 id="platform-select" 
                 value={curroption1} 
@@ -325,7 +325,7 @@ function Games() {
             </h3>
 
             <div className="mb-4 text-center">
-              <label htmlFor="start-month" className="mr-2">Start Month:</label>
+              <label htmlFor="start-month" className="mr-2">Début mois:</label>
               <select
                 id="start-month"
                 value={values[0]}
@@ -339,7 +339,7 @@ function Games() {
                 ))}
               </select>
 
-              <label htmlFor="end-month" className="mr-2 ml-4">End Month:</label>
+              <label htmlFor="end-month" className="mr-2 ml-4">Fin mois:</label>
               <select
                 id="end-month"
                 value={values[1]}

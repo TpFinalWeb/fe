@@ -245,7 +245,7 @@ function Genres() {
               Les genres les plus votes au fil des années
             </h3>
             <div className="text-center mb-4">
-              <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
+              <label htmlFor="platform-select" className="mr-2">Le genre choisi:</label>
               <select 
                 id="platform-select" 
                 value={curroption} 
