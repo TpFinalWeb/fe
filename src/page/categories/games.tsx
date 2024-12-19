@@ -236,7 +236,8 @@ function Games() {
 
   const descGraph1 = `Ce graphique présente les Top 10 des jeux d'une plateforme, permettant de visualiser les dix jeux les plus populaires sur une plateforme choisie. 
   Vous pouvez sélectionner la plateforme souhaitée à partir d'un menu déroulant, et le graphique mettra à jour les données en conséquence. 
-  La visualisation est réalisée sous forme de graphique en barres, où chaque barre représentereprésente la popularité des jeux selon les votes des joueurs.`;
+  La visualisation est réalisée sous forme de graphique en barres, où chaque barre représentereprésente la popularité des jeux selon les votes des joueurs.
+  Le but de ce graphique est de permettre aux utilisateurs de visualiser les jeux les plus populaires sur une plateforme spécifique.`;
   const descGraph2 = `Ce graphique présente les Top 10 des jeux d'un genre, permettant de visualiser les dix jeux les plus populaires d'un genre spécifique choisi. 
   Vous pouvez sélectionner le genre de jeu souhaité à partir d'un menu déroulant, et le graphique se mettra à jour pour afficher les jeux les plus populaires de ce genre. 
   La visualisation est réalisée sous forme de graphique en barres, où chaque barre représente la popularité des jeux selon les votes des joueurs dans le genre particulier.`;
@@ -321,7 +322,7 @@ function Games() {
 
           <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Popularité des jeux  entre les mois
+              Popularité des jeux de certaines plateformes entre les mois
             </h3>
 
             <div className="mb-4 text-center">
