@@ -207,33 +207,15 @@ function Platformes() {
   `
 
   const graphDesc2 = `
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-  molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-  numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-  optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-  obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-  nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-  tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-  quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-  recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-  !
+  Ce graphique montre la popularité des plateformes de jeu en fonction de la moyenne de popularité des jeux disponibles sur chaque plateforme. On conte seulement les jeux qui ont plus de 50 jeux dont leur popularité n'est pas nulle.
+  Chaque bar du graphique représente une plateforme de jeu et la taille de la bar représente la moyenne de popularité des jeux disponibles sur cette plateforme.
+  La popularité des plateformes de jeu peut être un indicateur de la qualité des jeux disponibles sur chaque plateforme, ainsi que de la satisfaction des joueurs envers les jeux disponibles sur ces plateformes.
   `
 
   const graphDesc3 = `
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-  molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-  numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-  optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-  obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-  nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-  tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-  quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-  recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-  !
+  Ce graphique montre le nombre de jeux par plateforme.
+  Chaque partie du graphique représente une plateforme de jeu et la taille de la partie représente le nombre de jeux disponibles sur cette plateforme.
+  La disparité du nombre de jeux par plateforme nous montre quelles plateformes ont une bibliothèque de jeux plus vaste par rapport à d'autres. Cela peut indiquer la popularité et le soutien des développeurs pour certaines plateformes, ainsi que les préférences des joueurs en termes de choix de plateforme pour jouer à leurs jeux préférés.
   `
 
   return (
