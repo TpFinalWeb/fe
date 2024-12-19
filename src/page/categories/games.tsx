@@ -160,7 +160,7 @@ function Games() {
     labels: labels,
     datasets: [
       {
-        label: "Top 10 Games of a Platform",
+        label: "Top 1 des jeux d'une plateforme",
         data: dataset,
         backgroundColor: colors,
         borderColor: ["rgba(0,0,0,1)"],
@@ -174,7 +174,7 @@ function Games() {
     labels: labels1,
     datasets: [
       {
-        label: "Top 10 Games of a Genre",
+        label: "Top 1 des jeux d'un genre",
         data: dataset1,
         backgroundColor: colors1,
         borderColor: ["rgba(0,0,0,1)"],
@@ -187,7 +187,7 @@ function Games() {
     labels: labels2,
     datasets: [
       {
-        label: "Popularity between months",
+        label: "Jeu le plus populaire entre les mois",
         data: datasetGenre,
         backgroundColor: colors2,
         borderColor: ["rgba(0,0,0,1)"],
@@ -234,21 +234,28 @@ function Games() {
     }
   };
 
-  const descGraph1 = `Description for Graph 1`;
-  const descGraph2 = `Description for Graph 2`;
-  const descGraph3 = `Description for Graph 3`;
+  const descGraph1 = `Ce graphique présente les Top 10 des jeux d'une plateforme, permettant de visualiser les dix jeux les plus populaires sur une plateforme choisie. 
+  Vous pouvez sélectionner la plateforme souhaitée à partir d'un menu déroulant, et le graphique mettra à jour les données en conséquence. 
+  La visualisation est réalisée sous forme de graphique en barres, où chaque barre représentereprésente la popularité des jeux selon les votes des joueurs.`;
+  const descGraph2 = `Ce graphique présente les Top 10 des jeux d'un genre, permettant de visualiser les dix jeux les plus populaires d'un genre spécifique choisi. 
+  Vous pouvez sélectionner le genre de jeu souhaité à partir d'un menu déroulant, et le graphique se mettra à jour pour afficher les jeux les plus populaires de ce genre. 
+  La visualisation est réalisée sous forme de graphique en barres, où chaque barre représente la popularité des jeux selon les votes des joueurs dans le genre particulier.`;
+  const descGraph3 = `Ce graphique présente la Popularité des jeux entre les mois, permettant de suivre l'évolution de la popularité des jeux sur une période donnée. 
+  Vous pouvez sélectionner une plage de mois en choisissant un mois de début et un mois de fin à partir de menus déroulants. 
+  Le graphique se mettra alors à jour pour afficher la popularité des jeux sur la période sélectionnée, sous forme de graphique linéaire. 
+  Ce graphique permet de visualiser les tendances et variations de popularité selon les votes des joueurs au fil du temps.`;
 
   return (
     <div className="min-h-screen flex flex-col">
       <HeaderMain />
       <main className="flex-1 bg-teal-50 flex flex-col items-center justify-center p-8 ">
         <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono mb-10">
-          Visualisation des Données de jeux Vidéo
+          Visualisation des Données de Jeux Vidéo
         </h2>
         <div className="flex flex-wrap justify-center gap-12 mt-10">
-          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 1: Top 10 Games of a Platform
+            Top 10 des jeux d'une plateforme
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">Select Platform:</label>
@@ -262,7 +269,7 @@ function Games() {
                 }} 
                 className="p-2 border rounded"
               >
-                <option value="">--Please choose an option--</option>
+                <option value="">--Veuillez choisir une option--</option>
                 {platformOptions.map((option: string) => (
                   <option key={option} value={option}>
                     {option}
@@ -273,15 +280,15 @@ function Games() {
             <Bar data={data} options={options} />
             <button 
               onClick={() => handleOpenPopUp("Graphique 1", descGraph1)} 
-              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
             </button>
           </div>
 
-          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 2: Top 10 Games of a Genre
+              Top 10 des jeux d'un genre
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">Select Genre:</label>
@@ -295,7 +302,7 @@ function Games() {
                 }} 
                 className="p-2 border rounded"
               >
-                <option value="">--Please choose an option--</option>
+                <option value="">--Veuillez choisir une option--</option>
                 {genreOption.map((option: string) => (
                   <option key={option} value={option}>
                     {option}
@@ -306,15 +313,15 @@ function Games() {
             <Bar data={dataGenre} options={optionsGenre} />
             <button 
               onClick={() => handleOpenPopUp("Graphique 2", descGraph2)} 
-              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
             </button>
           </div>
 
-          <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
+          <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 3: Select Month Range
+              Popularité des jeux  entre les mois
             </h3>
 
             <div className="mb-4 text-center">
@@ -351,7 +358,7 @@ function Games() {
 
             <button 
               onClick={() => handleOpenPopUp("Graphique 3", descGraph3)} 
-              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
             </button>
