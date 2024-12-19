@@ -248,9 +248,9 @@ function Scores() {
         <h2 className="text-2xl font-bold text-teal-700 mb-6 font-mono">
           Visualisation des données de scores</h2>
         <div className="flex flex-wrap justify-center gap-12 mt-10">
-          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:scale-105 hover:shadow-lg cursor-pointer">
+          <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 1: La qualité des jeux par plateforme au fil du temps
+              La qualité des jeux par plateforme au fil du temps
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="platform-select" className="mr-2">La plateforme choisie:</label>
@@ -275,7 +275,7 @@ function Scores() {
             <Bar data={dataPlatform} options={options} />
             <button 
               onClick={() => handleOpenPopUp("Graphique 1", descGraph1)} 
-              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono"
+              className="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-mono hover:scale-105"
             >
               Voir Détails
             </button>
@@ -283,7 +283,7 @@ function Scores() {
 
           <div className="bg-white shadow-md rounded-lg p-10 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 2:  La qualité des jeux par genre au fil du temps
+              La qualité des jeux par genre au fil du temps
             </h3>
             <div className="text-center mb-4">
               <label htmlFor="genre-select" className="mr-2">Le genre choisi:</label>
@@ -315,7 +315,7 @@ function Scores() {
           </div>
           <div className="bg-white shadow-md shadow-md rounded-lg p-14 w-[500px] hover:shadow-lg cursor-pointer">
             <h3 className="text-center font-bold text-teal-700 mb-4 font-mono">
-              Graphique 3 : Les meilleurs jeux de chaque année
+              Les meilleurs jeux de chaque année
             </h3>
             <Line data={dataGOY} options={optionGoy}/>
             <button 
