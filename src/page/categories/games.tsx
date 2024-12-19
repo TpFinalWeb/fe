@@ -187,7 +187,7 @@ function Games() {
     labels: labels2,
     datasets: [
       {
-        label: "Jeu le plus populaire entre les mois",
+        label: "Quelle plateforme de jeu la plus populaire entre les mois",
         data: datasetGenre,
         backgroundColor: colors2,
         borderColor: ["rgba(0,0,0,1)"],
@@ -241,9 +241,9 @@ function Games() {
   const descGraph2 = `Ce graphique présente les Top 10 des jeux d'un genre, permettant de visualiser les dix jeux les plus populaires d'un genre spécifique choisi. 
   Vous pouvez sélectionner le genre de jeu souhaité à partir d'un menu déroulant, et le graphique se mettra à jour pour afficher les jeux les plus populaires de ce genre. 
   La visualisation est réalisée sous forme de graphique en barres, où chaque barre représente la popularité des jeux selon les votes des joueurs dans le genre particulier.`;
-  const descGraph3 = `Ce graphique présente la Popularité des jeux entre les mois, permettant de suivre l'évolution de la popularité des jeux sur une période donnée. 
+  const descGraph3 = `Ce graphique présente la Popularité des jeux d'une plateforme entre les mois, permettant de suivre l'évolution de la popularité de cette plateforme sur une période donnée. 
   Vous pouvez sélectionner une plage de mois en choisissant un mois de début et un mois de fin à partir de menus déroulants. 
-  Le graphique se mettra alors à jour pour afficher la popularité des jeux sur la période sélectionnée, sous forme de graphique linéaire. 
+  Le graphique se mettra alors à jour pour afficher la popularité des jeux de certaines plateformes sur la période sélectionnée, sous forme de graphique linéaire. 
   Ce graphique permet de visualiser les tendances et variations de popularité selon les votes des joueurs au fil du temps.`;
 
   return (
